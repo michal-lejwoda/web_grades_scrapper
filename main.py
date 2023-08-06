@@ -1,12 +1,14 @@
+import os
 from fastapi import FastAPI
 import requests
 from slugify import slugify
 import bs4
 import re
-
+from dotenv import load_dotenv
+load_dotenv('.env')
 app = FastAPI()
-
-
+HOST = os.getenv("RAPID_API_HOST")
+API_KEY = os.getenv("RAPID_API_KEY")
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
@@ -46,8 +48,8 @@ async def opencritic():
     url = "https://opencritic-api.p.rapidapi.com/game/search"
     querystring = {"criteria": content}
     headers = {
-        "X-RapidAPI-Key": "6f35da44cfmsh719ef95fb99a038p1524f1jsnf725a2eefc65",
-        "X-RapidAPI-Host": "opencritic-api.p.rapidapi.com"
+        "X-RapidAPI-Key": API_KEY,
+        "X-RapidAPI-Host": HOST
     }
     response = requests.get(url, headers=headers, params=querystring)
     return response.json()
