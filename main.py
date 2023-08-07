@@ -7,7 +7,9 @@ import re
 from dotenv import load_dotenv
 
 from helpers import get_soup, create_url
-from metacritic_helpers import list_metacritic_games
+from imdb_helpers import get_imdb_movies_list
+from metacritic_helpers import list_metacritic_games, detail_metacritic_games
+from opencritic_helpers import get_opencritic_games_list_json
 
 load_dotenv('.env')
 app = FastAPI()
@@ -15,12 +17,10 @@ HOST = os.getenv("RAPID_API_HOST")
 API_KEY = os.getenv("RAPID_API_KEY")
 @app.get("/")
 async def root():
-    content = "red dead redemption 2"
-    url_template = "https://www.metacritic.com/search/game/{}/results"
-    url = create_url(url_template, content)
-    soup = get_soup(url)
-    return list_metacritic_games(soup)
-
+    url_template = "https://www.metacritic.com/game/xbox-one/red-dead-redemption-2"
+    soup = get_soup(url_template)
+    game_detail = detail_metacritic_games(soup)
+    return game_detail
 
 @app.get("/hello/{name}")
 async def say_hello(name: str):
@@ -28,47 +28,31 @@ async def say_hello(name: str):
 
 
 @app.get("/metacritic")
-async def metacritic():
-    content = "red dead redemption 2"
+async def metacritic() -> list:
+    name = "red dead redemption 2"
     url_template = "https://www.metacritic.com/search/game/{}/results"
-    url = create_url(url_template, content)
+    url = create_url(url_template, name)
     soup = get_soup(url)
     return list_metacritic_games(soup)
 
 
 @app.get("/opencritic")
-async def opencritic():
+async def opencritic()-> list:
     content = "red dead redemption 2"
-    url = "https://opencritic-api.p.rapidapi.com/game/search"
-    querystring = {"criteria": content}
-    headers = {
-        "X-RapidAPI-Key": API_KEY,
-        "X-RapidAPI-Host": HOST
-    }
-    response = requests.get(url, headers=headers, params=querystring)
-    return response.json()
+    url_template = "https://opencritic-api.p.rapidapi.com/game/search"
+    opencritic_games_list = get_opencritic_games_list_json(url_template, content)
+    return opencritic_games_list
 
 
 @app.get("/imdb")
-async def imdb():
-    res_arr = []
-    content = "red dead redemption 2"
-    content_slugify = slugify(content)
-    session = requests.Session()
-    session.headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"}
-    r = session.get("https://www.imdb.com/find/?q={}&ref_=nv_sr_sm".format(content_slugify), allow_redirects=False)
-    soup = bs4.BeautifulSoup(r.text, 'lxml')
-    all_results = soup.select('.ipc-metadata-list-summary-item')
-    for result in all_results:
-        title = result.find("a", {"class": "ipc-metadata-list-summary-item__t"}).text
-        finded_all = result.find_all("span", {"class": "ipc-metadata-list-summary-item__li"})
-        description_arr = []
-        for i in finded_all:
-            description_arr.append(i.text)
-        temp_obj = {"title": title, "description_arr": description_arr}
-        res_arr.append(temp_obj)
-    return res_arr
+async def imdb() -> list:
+    name = "red dead redemption 2"
+    name_slugify = slugify(name)
+    url_template = "https://www.imdb.com/find/?q={}&ref_=nv_sr_sm"
+    url = create_url(url_template, name_slugify)
+    soup = get_soup(url)
+    list_of_imdb_movies = get_imdb_movies_list(soup)
+    return list_of_imdb_movies
 
 
 @app.get("/metacritic_detail")
