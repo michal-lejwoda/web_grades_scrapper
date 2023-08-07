@@ -13,8 +13,6 @@ from opencritic_helpers import get_opencritic_games_list_json, detail_opencritic
 
 load_dotenv('.env')
 app = FastAPI()
-HOST = os.getenv("RAPID_API_HOST")
-API_KEY = os.getenv("RAPID_API_KEY")
 @app.get("/")
 async def root():
     url_template = "https://www.imdb.com/title/tt0120815/"
