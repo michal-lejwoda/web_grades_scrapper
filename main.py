@@ -5,13 +5,21 @@ from slugify import slugify
 import bs4
 import re
 from dotenv import load_dotenv
+
+from helpers import get_soup, create_url
+from metacritic_helpers import list_metacritic_games
+
 load_dotenv('.env')
 app = FastAPI()
 HOST = os.getenv("RAPID_API_HOST")
 API_KEY = os.getenv("RAPID_API_KEY")
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    content = "red dead redemption 2"
+    url_template = "https://www.metacritic.com/search/game/{}/results"
+    url = create_url(url_template, content)
+    soup = get_soup(url)
+    return list_metacritic_games(soup)
 
 
 @app.get("/hello/{name}")
@@ -21,25 +29,11 @@ async def say_hello(name: str):
 
 @app.get("/metacritic")
 async def metacritic():
-    games_arr = []
     content = "red dead redemption 2"
-    session = requests.Session()
-    session.headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"}
-    r = session.get("https://www.metacritic.com/search/game/{}/results".format(content), allow_redirects=False)
-    soup = bs4.BeautifulSoup(r.text, 'lxml')
-    all_results = soup.select('.result')
-    for number, i in enumerate(all_results):
-        name = i.find("h3", {"class": "product_title"}).find('a').text.strip()
-        result = i.find("span", {"class": "metascore_w"}).text
-        platforms = i.find("span", {"class": "platform"}).text
-        img = i.find("img")['src']
-        year = re.search(r"(\d{4})", i.find("p", {"class": None}).text.strip().lower()).group(1)
-        temp_list = i.find("p", {"class": None}).text.strip().lower().replace(' ', '').replace('\n\n', ',').split(',')
-        temp_obj = {"platforms": platforms, "img": img, "year": year, "metascore": result, "type": temp_list[1],
-                    "name": name}
-        games_arr.append(temp_obj)
-    return games_arr
+    url_template = "https://www.metacritic.com/search/game/{}/results"
+    url = create_url(url_template, content)
+    soup = get_soup(url)
+    return list_metacritic_games(soup)
 
 
 @app.get("/opencritic")
