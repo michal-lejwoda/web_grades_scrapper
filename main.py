@@ -9,12 +9,15 @@ from opencritic.opencritic_helpers import get_opencritic_games_list_json, detail
 
 load_dotenv('.env')
 app = FastAPI()
+
+
 @app.get("/")
 async def root():
     url_template = "https://www.imdb.com/title/tt0120815/"
     soup = get_soup(url_template)
     movie_detail = detail_imdb_movie(soup)
     return movie_detail
+
 
 @app.get("/hello/{name}")
 async def say_hello(name: str):
@@ -31,7 +34,7 @@ async def metacritic() -> list:
 
 
 @app.get("/opencritic")
-async def opencritic()-> list:
+async def opencritic() -> list:
     content = "red dead redemption 2"
     url_template = "https://opencritic-api.p.rapidapi.com/game/search"
     opencritic_games_list = get_opencritic_games_list_json(url_template, content)
@@ -63,6 +66,7 @@ async def opencritic_detail():
     soup = get_soup(url_template)
     game_detail = detail_opencritic_games(soup)
     return game_detail
+
 
 @app.get("/imdb_detail")
 async def imdb_detail():
