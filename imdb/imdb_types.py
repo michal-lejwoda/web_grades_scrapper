@@ -1,4 +1,8 @@
 """List imdb types"""
+LIST_CONTAINER = ".ipc-metadata-list-summary-item"
+LIST_TITLE = "ipc-metadata-list-summary-item__t"
+DESCRIPTION_LIST = "ipc-metadata-list-summary-item__li"
+"""Detail imdb types"""
 TITLE = "sc-afe43def-1"
 DATA_CONTAINER = "sc-afe43def-4"
 PLATFORMS = "platforms"
