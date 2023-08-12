@@ -1,7 +1,7 @@
 import os
-import opencritic_types
 import bs4
 import requests
+from . import opencritic_types
 def get_opencritic_games_list_json(url_template: str, name: str) -> list:
     querystring = {"criteria": name}
     headers = {

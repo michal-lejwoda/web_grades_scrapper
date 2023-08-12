@@ -1,6 +1,6 @@
 import bs4
 import re
-import metacritic_types
+from . import metacritic_types
 import requests
 
 

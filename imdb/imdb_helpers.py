@@ -1,5 +1,5 @@
 import bs4
-import imdb_types
+from . import imdb_types
 def get_imdb_movies_list(soup: bs4.BeautifulSoup) -> list:
     res_arr = []
     all_results = soup.select('.ipc-metadata-list-summary-item')
