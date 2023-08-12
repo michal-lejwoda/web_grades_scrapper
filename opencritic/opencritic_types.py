@@ -1,6 +1,6 @@
 """List opencritic types"""
 SELECT_RESULT_CONTAINER = "app-root"
-REVIEW_CONTAINER = "reviews_container"
+REVIEW_CONTAINER = "app-rapid-review-list"
 PLATFORMS = "platforms"
 COMPANIES = "companies"
 SCORES_CONTAINER = "app-game-scores-display"

@@ -1,48 +1,32 @@
-import os
 import bs4
-import requests
-from . import opencritic_types
+from .opencritic_helpers_functions import (get_opencritic_api_data, get_main_container, get_opencritic_img,
+                                           get_opencritic_reviews, get_opencritic_developers, get_opencritic_platforms,
+                                           get_opencritic_release_date,
+                                           get_opencritic_title, get_opencritic_scores_container,
+                                           get_opencritic_critic_score, get_opencritic_critic_recommend,
+                                           get_opencritic_critic_rating_img)
+
+
 def get_opencritic_games_list_json(url_template: str, name: str) -> list:
-    querystring = {"criteria": name}
-    headers = {
-        "X-RapidAPI-Key": os.getenv("RAPID_API_KEY"),
-        "X-RapidAPI-Host": os.getenv("RAPID_API_HOST")
-    }
-    response = requests.get(url_template, headers=headers, params=querystring)
-    return response.json()
+    return get_opencritic_api_data(url_template, name)
+
 
 def detail_opencritic_games(soup: bs4.BeautifulSoup) -> dict:
-    current_developers = []
-    current_platforms = []
-    container = soup.select('app-root')[0]
-    img_container = container.find(name="picture").find(name="img")
-    img = {
-        "src": img_container['src'],
-        "alt": img_container['alt']
-    }
-    reviews_container = container.find(name=opencritic_types.REVIEW_CONTAINER).find_all(name="div", attrs={
-        "class": "justify-content-between"})
-    reviews = []
-    for review in reviews_container:
-        reviewer = review.find_all(name="div")[0].text.strip()
-        reviewer_score = review.find_all(name="div")[1].text
-        reviews.append({"reviewer": reviewer, "reviewer_score": reviewer_score})
-
-    release_date = container.find(name="div", attrs={"class": opencritic_types.PLATFORMS}).text
-    platforms = container.find(name="div", attrs={"class": opencritic_types.PLATFORMS}).find_all(name="span")
-    developers = container.find(name="div", attrs={"class": opencritic_types.COMPANIES}).find_all(name="span")
-    title = container.find(name="h1").text
-    scores_container = container.find(name=opencritic_types.SCORES_CONTAINER)
-    critic_score = scores_container.find(name='div', attrs={"class": opencritic_types.CRITIC_DATA}).text.strip()
-    critic_recommend = scores_container.find_all(name='div', attrs={"class": opencritic_types.CRITIC_DATA})[1].text.strip()
-    critic_rating_img = {"src": scores_container.find('img')['src'], "alt": scores_container.find("img")['alt']}
-
-    for developer in developers:
-        current_developers.append(developer.text)
-    for platform in platforms:
-        current_platforms.append(platform.text)
-    all_platform_data = {"developers": current_developers, "title": title, "release_date": release_date,
-                         "platforms": current_platforms, "img": img, "critic_score": critic_score,
-                         "critic_recommend": critic_recommend,
-                         "critic_rating_img": critic_rating_img, "reviews": reviews}
-    return all_platform_data
+    main_container = get_main_container(soup)
+    img = get_opencritic_img(main_container)
+    reviews = get_opencritic_reviews(main_container)
+    release_date = get_opencritic_release_date(main_container)
+    platforms = get_opencritic_platforms(main_container)
+    developers = get_opencritic_developers(main_container)
+    title = get_opencritic_title(main_container)
+    scores_container = get_opencritic_scores_container(main_container)
+    critic_score = get_opencritic_critic_score(scores_container)
+    critic_recommend = get_opencritic_critic_recommend(scores_container)
+    critic_rating_img = get_opencritic_critic_rating_img(scores_container)
+    results = {"developers": developers, "title": title, "release_date": release_date,
+               "platforms": platforms, "img": img, "critic_score": critic_score,
+               "critic_recommend": critic_recommend,
+               "critic_rating_img": critic_rating_img,
+               # "reviews": reviews
+               }
+    return results
