@@ -1,4 +1,3 @@
-import array
 import bs4
 import re
 import metacritic_types
@@ -30,7 +29,7 @@ def detail_metacritic_games(soup: bs4.BeautifulSoup) -> list:
     rest_platforms = rest.find_all("a", href=True)
     main_container = soup.select(metacritic_types.SELECT_DETAIL_MAIN_CONTAINER)[0]
     genres = main_container.find(name='li', attrs={"class": metacritic_types.GENRES}).find_all(name="span",
-                                                                                       attrs={"class": "data"})
+                                                                                               attrs={"class": "data"})
     developers = main_container.find(name='li', attrs={"class": metacritic_types.DEVELOPERS}).find_all(name='a')
     current_genres = []
     current_developers = []

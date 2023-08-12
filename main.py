@@ -1,15 +1,11 @@
-import os
 from fastapi import FastAPI
-import requests
 from slugify import slugify
-import bs4
-import re
 from dotenv import load_dotenv
 
 from helpers import get_soup, create_url
-from imdb_helpers import get_imdb_movies_list, detail_imdb_movie
-from metacritic_helpers import list_metacritic_games, detail_metacritic_games
-from opencritic_helpers import get_opencritic_games_list_json, detail_opencritic_games
+from imdb.imdb_helpers import get_imdb_movies_list, detail_imdb_movie
+from metacritic.metacritic_helpers import list_metacritic_games, detail_metacritic_games
+from opencritic.opencritic_helpers import get_opencritic_games_list_json, detail_opencritic_games
 
 load_dotenv('.env')
 app = FastAPI()
