@@ -15,3 +15,4 @@ CRITIC_SCORE = "ratingValue"
 CRITIC_BASED_ON = "count"
 USER_SCORE = "user"
 USER_BASED_ON = "side_details"
+
