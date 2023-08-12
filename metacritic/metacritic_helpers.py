@@ -1,29 +1,33 @@
 import bs4
-import re
-from . import metacritic_types
 import requests
+
+from helpers import create_session
+from . import metacritic_types
+from .metacritic_helpers_functions import get_name, get_metascore, get_platforms, get_img, get_year, get_types, \
+    get_result_container
 
 
 def list_metacritic_games(soup: bs4.BeautifulSoup) -> list:
-    list_of_games = []
-    all_results = soup.select(metacritic_types.SELECT_RESULT_CONTAINER)
-    for number, i in enumerate(all_results):
-        name = i.find("h3", {"class": metacritic_types.TITLE}).find('a').text.strip()
-        result = i.find("span", {"class": metacritic_types.METASCORE}).text
-        platforms = i.find("span", {"class": metacritic_types.PLATFORM}).text
-        img = i.find("img")['src']
-        year = re.search(r"(\d{4})", i.find("p", {"class": None}).text.strip().lower()).group(1)
-        temp_list = i.find("p", {"class": None}).text.strip().lower().replace(' ', '').replace('\n\n', ',').split(',')
-        temp_obj = {"platforms": platforms, "img": img, "year": year, "metascore": result, "type": temp_list[1],
+    list_of_elements = []
+    results = get_result_container(soup)
+    for result_element in results:
+        name = get_name(result_element)
+        result = get_metascore(result_element)
+        platforms = get_platforms(result_element)
+        img = get_img(result_element)
+        year = get_year(result_element)
+        types = get_types(result_element)
+        list_element = {"platforms": platforms, "img": img, "year": year, "metascore": result, "type": types[1],
                     "name": name}
-        list_of_games.append(temp_obj)
-    return list_of_games
+        list_of_elements.append(list_element)
+    return list_of_elements
 
 def detail_metacritic_games(soup: bs4.BeautifulSoup) -> list:
     all_platform_data = []
-    session = requests.Session()
-    session.headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"}
+    session = create_session()
+    # session = requests.Session()
+    # session.headers = {
+    #     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"}
     product_platforms = soup.select(metacritic_types.SELECT_DETAIL_PLATFORMS_CONTAINER)
     rest = product_platforms[0].find("span", {"class": "data"})
     rest_platforms = rest.find_all("a", href=True)
