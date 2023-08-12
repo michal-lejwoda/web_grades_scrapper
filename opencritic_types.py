@@ -1,0 +1,7 @@
+"""List opencritic types"""
+SELECT_RESULT_CONTAINER = "app-root"
+REVIEW_CONTAINER = "reviews_container"
+PLATFORMS = "platforms"
+COMPANIES = "companies"
+SCORES_CONTAINER = "app-game-scores-display"
+CRITIC_DATA = "inner-orb"

@@ -1,5 +1,5 @@
 import os
-
+import opencritic_types
 import bs4
 import requests
 def get_opencritic_games_list_json(url_template: str, name: str) -> list:
@@ -20,7 +20,7 @@ def detail_opencritic_games(soup: bs4.BeautifulSoup) -> dict:
         "src": img_container['src'],
         "alt": img_container['alt']
     }
-    reviews_container = container.find(name='app-rapid-review-list').find_all(name="div", attrs={
+    reviews_container = container.find(name=opencritic_types.REVIEW_CONTAINER).find_all(name="div", attrs={
         "class": "justify-content-between"})
     reviews = []
     for review in reviews_container:
@@ -28,13 +28,13 @@ def detail_opencritic_games(soup: bs4.BeautifulSoup) -> dict:
         reviewer_score = review.find_all(name="div")[1].text
         reviews.append({"reviewer": reviewer, "reviewer_score": reviewer_score})
 
-    release_date = container.find(name="div", attrs={"class": "platforms"}).text
-    platforms = container.find(name="div", attrs={"class": "platforms"}).find_all(name="span")
-    developers = container.find(name="div", attrs={"class": "companies"}).find_all(name="span")
+    release_date = container.find(name="div", attrs={"class": opencritic_types.PLATFORMS}).text
+    platforms = container.find(name="div", attrs={"class": opencritic_types.PLATFORMS}).find_all(name="span")
+    developers = container.find(name="div", attrs={"class": opencritic_types.COMPANIES}).find_all(name="span")
     title = container.find(name="h1").text
-    scores_container = container.find(name="app-game-scores-display")
-    critic_score = scores_container.find(name='div', attrs={"class": "inner-orb"}).text.strip()
-    critic_recommend = scores_container.find_all(name='div', attrs={"class": "inner-orb"})[1].text.strip()
+    scores_container = container.find(name=opencritic_types.SCORES_CONTAINER)
+    critic_score = scores_container.find(name='div', attrs={"class": opencritic_types.CRITIC_DATA}).text.strip()
+    critic_recommend = scores_container.find_all(name='div', attrs={"class": opencritic_types.CRITIC_DATA})[1].text.strip()
     critic_rating_img = {"src": scores_container.find('img')['src'], "alt": scores_container.find("img")['alt']}
 
     for developer in developers:
