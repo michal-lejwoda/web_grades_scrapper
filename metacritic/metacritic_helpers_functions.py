@@ -66,7 +66,7 @@ def get_types(result_element: bs4.element.Tag) -> Optional[list]:
 def get_main_container(soup: bs4.BeautifulSoup) -> Optional[bs4.element.Tag]:
     try:
         return soup.select(metacritic_types.SELECT_DETAIL_MAIN_CONTAINER)[0]
-    except AttributeError:
+    except (AttributeError, IndexError):
         return None
 
 
@@ -106,7 +106,7 @@ def get_rest_platforms(soup: bs4.BeautifulSoup, session: requests.sessions.Sessi
                                       "user_score": user_score, "user_based_on": user_based_on,
                                       "img": img, 'platform': current_platform, })
         return all_platform_data
-    except AttributeError:
+    except (AttributeError, IndexError):
         return None
 
 
