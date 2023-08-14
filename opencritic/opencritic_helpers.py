@@ -1,3 +1,5 @@
+from typing import Optional
+
 import bs4
 from .opencritic_helpers_functions import (get_opencritic_api_data, get_main_container, get_opencritic_img,
                                            get_opencritic_reviews, get_opencritic_developers, get_opencritic_platforms,
@@ -7,7 +9,7 @@ from .opencritic_helpers_functions import (get_opencritic_api_data, get_main_con
                                            get_opencritic_critic_rating_img)
 
 
-def get_opencritic_games_list_json(url_template: str, name: str) -> list:
+def get_opencritic_games_list_json(url_template: str, name: str) -> Optional[list]:
     return get_opencritic_api_data(url_template, name)
 
 
@@ -27,6 +29,6 @@ def detail_opencritic_games(soup: bs4.BeautifulSoup) -> dict:
                "platforms": platforms, "img": img, "critic_score": critic_score,
                "critic_recommend": critic_recommend,
                "critic_rating_img": critic_rating_img,
-               # "reviews": reviews
+               "reviews": reviews
                }
     return results

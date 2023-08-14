@@ -10,12 +10,12 @@ def list_metacritic_games(soup: bs4.BeautifulSoup) -> list:
     results = get_result_container(soup)
     for result_element in results:
         name = get_name(result_element)
-        result = get_metascore(result_element)
+        metascore = get_metascore(result_element)
         platforms = get_platforms(result_element)
         img = get_img(result_element)
         year = get_year(result_element)
         types = get_types(result_element)
-        list_element = {"platforms": platforms, "img": img, "year": year, "metascore": result, "type": types[1],
+        list_element = {"platforms": platforms, "img": img, "year": year, "metascore": metascore, "type": types[1],
                         "name": name}
         list_of_elements.append(list_element)
     return list_of_elements

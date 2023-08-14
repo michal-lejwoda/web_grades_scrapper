@@ -34,10 +34,12 @@ async def metacritic() -> list:
 
 
 @app.get("/opencritic")
-async def opencritic() -> list:
+async def opencritic():
     content = "red dead redemption 2"
     url_template = "https://opencritic-api.p.rapidapi.com/game/search"
     opencritic_games_list = get_opencritic_games_list_json(url_template, content)
+    if opencritic_games_list == None:
+        return "Can't get data. :("
     return opencritic_games_list
 
 
