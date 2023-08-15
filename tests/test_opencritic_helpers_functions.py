@@ -19,7 +19,6 @@ def test_get_opencritic_api_data_with_wrong_url_template():
 def test_get_opencritic_api_data_with_weird_name():
     url_template = "https://opencritic-api.p.rapidapi.com/game/search"
     name = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-    get_opencritic_api_data(url_template, name)
     assert len(get_opencritic_api_data(url_template, name)) > 0
 
 
