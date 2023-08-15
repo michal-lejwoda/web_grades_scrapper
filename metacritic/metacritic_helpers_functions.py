@@ -55,10 +55,17 @@ def get_types(result_element: bs4.element.Tag) -> Optional[list]:
     try:
         return result_element.find("p", {"class": None}).text.strip().lower().replace(' ', '').replace('\n\n',
                                                                                                        ',').split(
-            ',')
-    except AttributeError:
+            ',')[1]
+    except (AttributeError, IndexError):
         return None
 
+
+def create_dict_without_none_objects(dict_elements: dict) -> dict:
+    new_dict = {}
+    for single_element in dict_elements.keys():
+        if dict_elements[single_element] != None:
+            new_dict[single_element] = dict_elements[single_element]
+    return new_dict
 
 """Detail metacritic functions"""
 
