@@ -60,6 +60,13 @@ def get_types(result_element: bs4.element.Tag) -> Optional[list]:
         return None
 
 
+def get_url(result_element: bs4.element.Tag) -> Optional[str]:
+    try:
+        return ("https://www.metacritic.com{}".format
+                (result_element.find("h3", {"class": metacritic_types.TITLE}).find('a', href=True)['href']))
+    except (AttributeError, IndexError):
+        return None
+
 def create_dict_without_none_objects(dict_elements: dict) -> dict:
     new_dict = {}
     for single_element in dict_elements.keys():

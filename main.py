@@ -8,7 +8,7 @@ from helpers import get_soup, create_url
 from imdb.imdb_helpers import get_imdb_movies_list, detail_imdb_movie
 from metacritic.metacritic_helpers import list_metacritic_games, detail_metacritic_games
 from opencritic.opencritic_helpers import get_opencritic_games_list_json, detail_opencritic_games
-from schemas import NameSchema
+from schemas import NameSchema, UrlSchema
 
 load_dotenv('.env')
 app = FastAPI()
@@ -61,7 +61,7 @@ async def imdb(name_schema: NameSchema) -> list:
 
 
 @app.get("/metacritic_detail")
-async def metacritic_detail():
+async def metacritic_detail(urlschema: UrlSchema):
     url_template = "https://www.metacritic.com/game/xbox-one/red-dead-redemption-2"
     soup = get_soup(url_template)
     game_detail = detail_metacritic_games(soup)
@@ -69,7 +69,7 @@ async def metacritic_detail():
 
 
 @app.get("/opencritic_detail")
-async def opencritic_detail():
+async def opencritic_detail(urlschema: UrlSchema):
     url_template = "https://opencritic.com/game/10993/deathloop"
     soup = get_soup(url_template)
     game_detail = detail_opencritic_games(soup)
@@ -77,7 +77,7 @@ async def opencritic_detail():
 
 
 @app.get("/imdb_detail")
-async def imdb_detail():
+async def imdb_detail(urlschema: UrlSchema):
     url_template = "https://www.imdb.com/title/tt0120815/"
     soup = get_soup(url_template)
     movie_detail = detail_imdb_movie(soup)
