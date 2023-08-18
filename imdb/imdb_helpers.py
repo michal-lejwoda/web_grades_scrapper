@@ -3,7 +3,7 @@ from . import imdb_types
 from .imdb_helpers_functions import get_container, get_title, get_data, get_imdb_rating, \
     get_imdb_rating_based_on, get_popularity, get_presentations, get_metascore, get_user_reviews_number, \
     get_critic_reviews_number, get_photos, get_actors, get_more_like_this, get_list_title, get_list_description, \
-    get_list_container
+    get_list_container, get_list_url
 
 
 def get_imdb_movies_list(soup: bs4.BeautifulSoup) -> list:
@@ -12,7 +12,8 @@ def get_imdb_movies_list(soup: bs4.BeautifulSoup) -> list:
     for element in list_container:
         title = get_list_title(element)
         description = get_list_description(element)
-        temp_obj = {"title": title, "description": description}
+        url = get_list_url(element)
+        temp_obj = {"title": title, "description": description, 'url': url}
         results.append(temp_obj)
     return results
 

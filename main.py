@@ -56,8 +56,7 @@ async def imdb(name_schema: NameSchema) -> list:
     url_template = "https://www.imdb.com/find/?q={}&ref_=nv_sr_sm"
     url = create_url(url_template, name_slugify)
     soup = get_soup(url)
-    list_of_imdb_movies = get_imdb_movies_list(soup)
-    return list_of_imdb_movies
+    return get_imdb_movies_list(soup)
 
 
 @app.get("/metacritic_detail")

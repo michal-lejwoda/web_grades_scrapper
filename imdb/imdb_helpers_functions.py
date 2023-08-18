@@ -31,6 +31,14 @@ def get_list_description(element: bs4.element.Tag) -> Optional[list]:
         return None
 
 
+def get_list_url(element: bs4.element.Tag) -> Optional[str]:
+    try:
+        return ("https://www.imdb.com{}"
+                .format(element.find("a", {"class": imdb_types.LIST_TITLE}, href=True)['href']))
+    except AttributeError:
+        return None
+
+
 """Detail imdb functions"""
 
 
