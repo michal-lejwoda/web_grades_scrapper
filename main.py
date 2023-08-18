@@ -39,6 +39,7 @@ async def metacritic(name_schema: NameSchema) -> list:
 
 @app.post("/opencritic")
 async def opencritic(name_schema: NameSchema) -> Optional[list]:
+    #TODO: GET More Data and add url
     name = name_schema.name
     # content = "red dead redemption 2"
     url_template = "https://opencritic-api.p.rapidapi.com/game/search"
