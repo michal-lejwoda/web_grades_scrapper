@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import FastAPI
 from slugify import slugify
 from dotenv import load_dotenv
@@ -6,6 +8,7 @@ from helpers import get_soup, create_url
 from imdb.imdb_helpers import get_imdb_movies_list, detail_imdb_movie
 from metacritic.metacritic_helpers import list_metacritic_games, detail_metacritic_games
 from opencritic.opencritic_helpers import get_opencritic_games_list_json, detail_opencritic_games
+from schemas import ListName, NameSchema
 
 load_dotenv('.env')
 app = FastAPI()
@@ -24,28 +27,31 @@ async def say_hello(name: str):
     return {"message": f"Hello {name}"}
 
 
-@app.get("/metacritic")
-async def metacritic() -> list:
-    name = "red dead redemption 2"
+@app.post("/metacritic")
+async def metacritic(name_schema: NameSchema) -> list:
+    name = name_schema.name
+    # name = "red dead redemption 2"
     url_template = "https://www.metacritic.com/search/game/{}/results"
     url = create_url(url_template, name)
     soup = get_soup(url)
     return list_metacritic_games(soup)
 
 
-@app.get("/opencritic")
-async def opencritic():
-    content = "red dead redemption 2"
+@app.post("/opencritic")
+async def opencritic(name_schema: NameSchema) -> Optional[list]:
+    name = name_schema.name
+    # content = "red dead redemption 2"
     url_template = "https://opencritic-api.p.rapidapi.com/game/search"
-    opencritic_games_list = get_opencritic_games_list_json(url_template, content)
+    opencritic_games_list = get_opencritic_games_list_json(url_template, name)
     if opencritic_games_list == None:
         return "Can't get data. :("
     return opencritic_games_list
 
 
-@app.get("/imdb")
-async def imdb() -> list:
-    name = "red dead redemption 2"
+@app.post("/imdb")
+async def imdb(name_schema: NameSchema) -> list:
+    name = name_schema.name
+    # name = "red dead redemption 2"
     name_slugify = slugify(name)
     url_template = "https://www.imdb.com/find/?q={}&ref_=nv_sr_sm"
     url = create_url(url_template, name_slugify)
