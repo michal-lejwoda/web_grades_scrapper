@@ -8,7 +8,7 @@ from helpers import get_soup, create_url
 from imdb.imdb_helpers import get_imdb_movies_list, detail_imdb_movie
 from metacritic.metacritic_helpers import list_metacritic_games, detail_metacritic_games
 from opencritic.opencritic_helpers import get_opencritic_games_list_json, detail_opencritic_games
-from schemas import ListName, NameSchema
+from schemas import NameSchema
 
 load_dotenv('.env')
 app = FastAPI()
