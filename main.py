@@ -22,11 +22,6 @@ async def root():
     return movie_detail
 
 
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
-
-
 @app.post("/metacritic")
 async def metacritic(name_schema: NameSchema) -> list:
     name = name_schema.name
