@@ -63,7 +63,7 @@ async def metacritic_detail(urlschema: UrlSchema):
 @app.post("/opencritic_detail")
 async def opencritic_detail(urlschema: UrlSchema):
     url_template = urlschema.url
-    url_template = "https://opencritic.com/game/10993/deathloop"
+    # url_template = "https://opencritic.com/game/10993/deathloop"
     soup = get_soup(url_template)
     game_detail = detail_opencritic_games(soup)
     return game_detail
