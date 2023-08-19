@@ -51,7 +51,7 @@ def get_year(result_element: bs4.element.Tag) -> Optional[str]:
         return None
 
 
-def get_types(result_element: bs4.element.Tag) -> Optional[list]:
+def get_types(result_element: bs4.element.Tag) -> Optional[str]:
     try:
         return result_element.find("p", {"class": None}).text.strip().lower().replace(' ', '').replace('\n\n',
                                                                                                        ',').split(

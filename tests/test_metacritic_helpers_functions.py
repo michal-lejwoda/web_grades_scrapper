@@ -59,7 +59,7 @@ def test_get_types_result_type():
     soup = get_test_rdr2_metacritic_soup()
     results = get_result_container(soup)
     for result_element in results:
-        assert type(get_types(result_element)) == list
+        assert type(get_types(result_element)) == str
 
 
 def test_get_url_result_type():

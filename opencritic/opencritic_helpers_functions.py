@@ -3,7 +3,9 @@ from typing import Optional
 
 import bs4
 import requests
+from slugify import slugify
 
+from helpers import get_soup
 from opencritic import opencritic_types
 
 """Opencritic list"""
@@ -32,6 +34,26 @@ def create_headers_and_querystring_for_api(name: str, rapid_api_key: str, rapid_
         "querystring": querystring,
         "headers": headers
     }
+
+
+def loop_results_and_get_more_info(api_results: list) -> list:
+    opencritic_list_of_elements = []
+    for result in api_results:
+        url = get_opencritic_url(result['id'], slugify(result['name']))
+        soup = get_soup(url)
+        main_container = get_main_container(soup)
+        img = get_opencritic_img(main_container)
+        scores_container = get_opencritic_scores_container(main_container)
+        critic_score = get_opencritic_critic_score(scores_container)
+        opencritic_list_of_elements.append({"url": url, "id": result['id'],
+                                            "name": result['name'], 'img': img,
+                                            "critic_score": critic_score,
+                                            })
+    return opencritic_list_of_elements
+def get_opencritic_url(id: int, name: str) -> Optional[str]:
+    return "https://opencritic.com/game/{}/{}".format(id,name)
+
+
 
 
 """Opencritic detail"""
