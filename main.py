@@ -28,8 +28,6 @@ async def metacritic(name_schema: NameSchema):
     url = create_url(url_template, name)
     soup = get_soup(url)
     list_elements = list_metacritic_games(soup)
-    if list_elements is None:
-        return "Can't get data. :("
     return list_elements
 
 
@@ -38,8 +36,6 @@ async def opencritic(name_schema: NameSchema):
     name = name_schema.name
     url_template = "https://opencritic-api.p.rapidapi.com/game/search"
     opencritic_games_list = get_opencritic_games_list_json(url_template, name)
-    if opencritic_games_list is None:
-        return "Can't get data. :("
     return opencritic_games_list
 
 
@@ -51,8 +47,6 @@ async def imdb(name_schema: NameSchema):
     url = create_url(url_template, name_slugify)
     soup = get_soup(url)
     list_elements = get_imdb_movies_list(soup)
-    if list_elements is None:
-        return "Can't get data. :("
     return list_elements
 
 
