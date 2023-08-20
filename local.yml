@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  scrapper_backend:
+    container_name: scrapper_backend
+    build:
+      context: .
+      dockerfile: ./compose/local/scrapper_backend/Dockerfile
+    command: /start_scrapper_backend
+    ports:
+      #HOST:CONTAINER
+      - "8000:80"
