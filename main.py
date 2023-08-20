@@ -28,7 +28,10 @@ async def metacritic(name_schema: NameSchema) -> list:
     url_template = "https://www.metacritic.com/search/game/{}/results"
     url = create_url(url_template, name)
     soup = get_soup(url)
-    return list_metacritic_games(soup)
+    list_elements = list_metacritic_games(soup)
+    if list_elements == None:
+        return "Can't get data. :("
+    return list_elements
 
 
 @app.post("/opencritic")
@@ -48,7 +51,10 @@ async def imdb(name_schema: NameSchema) -> list:
     url_template = "https://www.imdb.com/find/?q={}&ref_=nv_sr_sm"
     url = create_url(url_template, name_slugify)
     soup = get_soup(url)
-    return get_imdb_movies_list(soup)
+    list_elements = get_imdb_movies_list(soup)
+    if list_elements == None:
+        return "Can't get data. :("
+    return list_elements
 
 
 @app.post("/metacritic_detail")

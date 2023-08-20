@@ -7,15 +7,18 @@ from .imdb_helpers_functions import get_container, get_title, get_data, get_imdb
 
 
 def get_imdb_movies_list(soup: bs4.BeautifulSoup) -> list:
-    results = []
-    list_container = get_list_container(soup)
-    for element in list_container:
-        title = get_list_title(element)
-        description = get_list_description(element)
-        url = get_list_url(element)
-        temp_obj = {"title": title, "description": description, 'url': url}
-        results.append(temp_obj)
-    return results
+    try:
+        results = []
+        list_container = get_list_container(soup)
+        for element in list_container:
+            title = get_list_title(element)
+            description = get_list_description(element)
+            url = get_list_url(element)
+            temp_obj = {"title": title, "description": description, 'url': url}
+            results.append(temp_obj)
+        return results
+    except AttributeError:
+        return None
 
 
 def detail_imdb_movie(soup: bs4.BeautifulSoup) -> dict:
