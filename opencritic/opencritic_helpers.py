@@ -10,7 +10,6 @@ from .opencritic_helpers_functions import (get_opencritic_api_data, get_main_con
 
 
 def get_opencritic_games_list_json(url_template: str, name: str) -> Optional[list]:
-    # loop_results_and_get_more_info(get_opencritic_api_data(url_template, name))
     return loop_results_and_get_more_info(get_opencritic_api_data(url_template, name))
 
 
