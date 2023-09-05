@@ -10,3 +10,13 @@ services:
     ports:
       #HOST:CONTAINER
       - "8000:80"
+  scrapper_frontend:
+    container_name: scrapper_frontend
+    build:
+      context: .
+      dockerfile: ./compose/local/scrapper_frontend/Dockerfile
+    command: /start_scrapper_frontend
+    ports:
+      - "3000:3000"
+#    depends_on:
+#      - scrapper_backend

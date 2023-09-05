@@ -11,6 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 COPY ./compose/local/scrapper_backend/start_scrapper_backend /start_scrapper_backend
+
 RUN sed -i 's/\r$//g' /start_scrapper_backend
 RUN chmod +x /start_scrapper_backend
 
