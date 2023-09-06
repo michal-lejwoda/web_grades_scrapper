@@ -15,4 +15,7 @@ COPY ./compose/local/scrapper_backend/start_scrapper_backend /start_scrapper_bac
 RUN sed -i 's/\r$//g' /start_scrapper_backend
 RUN chmod +x /start_scrapper_backend
 
+
+#RUN sed -i 's/\r$//g' /start_scrapper_frontend
+#RUN chmod +x /start_scrapper_frontend
 #CMD ["uvicorn", "main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "80"]

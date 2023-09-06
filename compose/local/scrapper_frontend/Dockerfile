@@ -1,16 +1,17 @@
-FROM node:18.16-alpine AS development
+FROM node:18.16-bullseye AS development
 LABEL authors="michal"
-ENV NODE_ENV development
+#ENV NODE_ENV development
 # Add a work directory
-WORKDIR /usr/src/app
+WORKDIR /usr/src/frontend
 # Cache and Install dependencies
 
-COPY . .
+COPY web_grades_scrapper .
 
-COPY ./compose/local/scrapper_frontend/start_scrapper_frontend /start_scrapper_frontend
+COPY ./compose/local/scrapper_frontend/start_scrapper_frontend ./start_scrapper_frontend
 
-RUN sed -i 's/\r$//g' /start_scrapper_frontend
-RUN chmod +x /start_scrapper_frontend
+
+RUN sed -i 's/\r$//g' ./start_scrapper_frontend
+RUN chmod +x ./start_scrapper_frontend
 
 
 #COPY package.json .
