@@ -9,12 +9,13 @@ import {
     useOpencriticDetailQuery,
     useOpencriticListQuery
 } from "./hooks.tsx";
+import {FormDataInterface} from "./interfaces.tsx";
 
 
 const queryClient = new QueryClient()
 const App: React.FC = () => {
 
-    const [formdata, setFormData] = useState({
+    const [formdata, setFormData] = useState<FormDataInterface>({
         inputField: '',
         type: 'all_items',
         page: 'opencritic'
@@ -25,23 +26,23 @@ const App: React.FC = () => {
     }
 
     const handleOpencriticList = () => {
-        useOpencriticListQuery()
+        const opencritic_list = useOpencriticListQuery()
     }
 
     const handleImdbList = () => {
-        useImdbListQuery()
+        const imdb_list = useImdbListQuery()
     }
 
     const handleMetacriticDetail = () => {
-        useMetacriticDetailQuery()
+        const metacritic_detail = useMetacriticDetailQuery()
     }
 
     const handleOpencriticDetail = () => {
-        useOpencriticDetailQuery()
+        const opencritic_detail = useOpencriticDetailQuery()
     }
 
     const handleImdbDetail = () => {
-        useImdbDetailQuery()
+        const imdb_detail = useImdbDetailQuery()
     }
 
 

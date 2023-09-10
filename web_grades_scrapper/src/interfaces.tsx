@@ -1,7 +1,13 @@
-interface ListData {
+export interface ListData {
     "name": string
 }
 
-interface DetailData {
+export interface DetailData {
     "url": string
+}
+
+export interface FormDataInterface {
+    inputField: string,
+    type: string,
+    page: string
 }
