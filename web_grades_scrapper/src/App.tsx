@@ -2,6 +2,7 @@
 import React from "react";
 import {Field, FormikProvider, useFormik} from 'formik';
 import {QueryClient, QueryClientProvider} from 'react-query'
+import {handleMetacriticList} from "./handlers.tsx";
 // import {
 //     useImdbDetailQuery,
 //     useImdbListQuery, useMetacriticDetailQuery,
@@ -54,15 +55,16 @@ const App: React.FC = () => {
             page: 'opencritic'
         },
         onSubmit: values => {
-            console.log(values)
-            alert("Submit")
+            // console.log(values)
+            handleMetacriticList()
+            // alert("Submit")
         }
     })
     return (
         <QueryClientProvider client={queryClient}>
+            <h1>Test Reset reload</h1>
             <FormikProvider value={formik}>
                 <form onSubmit={formik.handleSubmit}>
-                    {/*<label htmlFor="email">Email Address</label>*/}
                     <input
                         id="inputField"
                         type="text"
