@@ -1,49 +1,49 @@
-import './App.css'
-import React, {useState} from "react";
+// import './App.css'
+import React from "react";
 import {Field, FormikProvider, useFormik} from 'formik';
-import {QueryClient, QueryClientProvider, useQuery} from 'react-query'
-import {
-    useImdbDetailQuery,
-    useImdbListQuery, useMetacriticDetailQuery,
-    useMetacriticListQuery,
-    useOpencriticDetailQuery,
-    useOpencriticListQuery
-} from "./hooks.tsx";
-import {FormDataInterface} from "./interfaces.tsx";
+import {QueryClient, QueryClientProvider} from 'react-query'
+// import {
+//     useImdbDetailQuery,
+//     useImdbListQuery, useMetacriticDetailQuery,
+//     useMetacriticListQuery,
+//     useOpencriticDetailQuery,
+//     useOpencriticListQuery
+// } from "./hooks.tsx";
+// import {FormDataInterface} from "./interfaces.tsx";
 
 
 const queryClient = new QueryClient()
 const App: React.FC = () => {
 
-    const [formdata, setFormData] = useState<FormDataInterface>({
-        inputField: '',
-        type: 'all_items',
-        page: 'opencritic'
-    })
-
-    const handleMetacriticList = () => {
-        const metacritic_list = useMetacriticListQuery()
-    }
-
-    const handleOpencriticList = () => {
-        const opencritic_list = useOpencriticListQuery()
-    }
-
-    const handleImdbList = () => {
-        const imdb_list = useImdbListQuery()
-    }
-
-    const handleMetacriticDetail = () => {
-        const metacritic_detail = useMetacriticDetailQuery()
-    }
-
-    const handleOpencriticDetail = () => {
-        const opencritic_detail = useOpencriticDetailQuery()
-    }
-
-    const handleImdbDetail = () => {
-        const imdb_detail = useImdbDetailQuery()
-    }
+    // const [formdata, setFormData] = useState<FormDataInterface>({
+    //     inputField: '',
+    //     type: 'all_items',
+    //     page: 'opencritic'
+    // })
+    //
+    // const handleMetacriticList = () => {
+    //     const metacritic_list = useMetacriticListQuery()
+    // }
+    //
+    // const handleOpencriticList = () => {
+    //     const opencritic_list = useOpencriticListQuery()
+    // }
+    //
+    // const handleImdbList = () => {
+    //     const imdb_list = useImdbListQuery()
+    // }
+    //
+    // const handleMetacriticDetail = () => {
+    //     const metacritic_detail = useMetacriticDetailQuery()
+    // }
+    //
+    // const handleOpencriticDetail = () => {
+    //     const opencritic_detail = useOpencriticDetailQuery()
+    // }
+    //
+    // const handleImdbDetail = () => {
+    //     const imdb_detail = useImdbDetailQuery()
+    // }
 
 
     // const [count, setCount] = useState<string>("")
