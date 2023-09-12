@@ -13,6 +13,9 @@ COPY ./compose/local/scrapper_frontend/start_scrapper_frontend ./start_scrapper_
 RUN sed -i 's/\r$//g' ./start_scrapper_frontend
 RUN chmod +x ./start_scrapper_frontend
 
+RUN npm install
+
+CMD ["npm", "run", "dev"]
 
 #COPY package.json .
 #COPY yarn.lock .
