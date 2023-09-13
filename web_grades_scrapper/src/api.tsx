@@ -1,6 +1,6 @@
 import axios from "axios";
-import ListData from "./interfaces.tsx"
-import DetailData from "./interfaces.tsx"
+import {ListData} from "./interfaces.tsx"
+import {DetailData} from "./interfaces.tsx"
 const instance = axios.create();
 
 

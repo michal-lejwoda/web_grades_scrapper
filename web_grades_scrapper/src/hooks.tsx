@@ -1,4 +1,4 @@
-import {useQuery} from "react-query";
+import {useMutation, useQuery} from "react-query";
 import {
     getImdbDetailData,
     getImdbListData,
@@ -31,3 +31,7 @@ export function useOpencriticDetailQuery() {
 export function useImdbDetailQuery() {
     return useQuery("imdb_detail", getImdbDetailData);
 }
+
+// export const useMetacriticListHook = () => {
+//     return useMutation(useMetacriticListQuery)
+// }

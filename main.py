@@ -2,6 +2,7 @@
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from slugify import slugify
+from fastapi.middleware.cors import CORSMiddleware
 
 from helpers import get_soup, create_url
 from imdb.imdb_helpers import get_imdb_movies_list, detail_imdb_movie
@@ -12,6 +13,15 @@ from schemas import NameSchema, UrlOpencriticSchema, UrlMetacriticSchema, UrlImd
 load_dotenv('.env')
 app = FastAPI()
 
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 async def root():

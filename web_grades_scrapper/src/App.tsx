@@ -1,68 +1,50 @@
 // import './App.css'
-import React from "react";
+import React, {useState} from "react";
 import {Field, FormikProvider, useFormik} from 'formik';
-import {QueryClient, QueryClientProvider} from 'react-query'
-import {handleMetacriticList} from "./handlers.tsx";
-// import {
-//     useImdbDetailQuery,
-//     useImdbListQuery, useMetacriticDetailQuery,
-//     useMetacriticListQuery,
-//     useOpencriticDetailQuery,
-//     useOpencriticListQuery
-// } from "./hooks.tsx";
-// import {FormDataInterface} from "./interfaces.tsx";
+import {useMutation} from 'react-query'
+import {getImdbListData, getMetacriticListData, getOpencriticListData} from "./api.tsx";
 
 
-const queryClient = new QueryClient()
 const App: React.FC = () => {
+    // mutations
+    const getOpencriticList = useMutation(getOpencriticListData, {
+        onSuccess: (data) =>{
+            console.log(data)
+        }
+    })
 
-    // const [formdata, setFormData] = useState<FormDataInterface>({
-    //     inputField: '',
-    //     type: 'all_items',
-    //     page: 'opencritic'
-    // })
-    //
-    // const handleMetacriticList = () => {
-    //     const metacritic_list = useMetacriticListQuery()
-    // }
-    //
-    // const handleOpencriticList = () => {
-    //     const opencritic_list = useOpencriticListQuery()
-    // }
-    //
-    // const handleImdbList = () => {
-    //     const imdb_list = useImdbListQuery()
-    // }
-    //
-    // const handleMetacriticDetail = () => {
-    //     const metacritic_detail = useMetacriticDetailQuery()
-    // }
-    //
-    // const handleOpencriticDetail = () => {
-    //     const opencritic_detail = useOpencriticDetailQuery()
-    // }
-    //
-    // const handleImdbDetail = () => {
-    //     const imdb_detail = useImdbDetailQuery()
-    // }
+    const getMetacriticList = useMutation(getMetacriticListData, {
+        onSuccess: (data) =>{
+            console.log(data)
+        }
+    })
 
+    const getImdbList = useMutation(getImdbListData, {
+        onSuccess: (data) =>{
+            console.log(data)
+        }
+    })
+    const [formdata, setFormData] = useState()
 
-    // const [count, setCount] = useState<string>("")
     const formik = useFormik({
         initialValues: {
             inputField: '',
             type: 'all_items',
             page: 'opencritic'
         },
-        onSubmit: values => {
-            // console.log(values)
-            handleMetacriticList()
-            // alert("Submit")
+        onSubmit: (values) => {
+            if (values.page == "opencritic"){
+               getOpencriticList.mutate({"name": values.inputField})
+            }else if(values.page == "metacritic"){
+                getMetacriticList.mutate({"name": values.inputField})
+            }else if(values.page == "imdb"){
+                getImdbList.mutate({"name": values.inputField})
+            }
         }
     })
     return (
-        <QueryClientProvider client={queryClient}>
-            <h1>Test Reset reload</h1>
+        <>
+            <h1>Test App reload</h1>
             <FormikProvider value={formik}>
                 <form onSubmit={formik.handleSubmit}>
                     <input
@@ -88,7 +70,6 @@ const App: React.FC = () => {
                             <Field type="radio" name="type" value="album"/>
                             Album
                         </label>
-                        {/*<div>Picked: {formik.values.type}</div>*/}
                     </div>
 
 
@@ -111,7 +92,7 @@ const App: React.FC = () => {
                     <button type="submit">Submit</button>
                 </form>
             </FormikProvider>
-        </QueryClientProvider>
+        </>
     )
 }
 
