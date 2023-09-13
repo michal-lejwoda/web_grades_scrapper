@@ -86,8 +86,6 @@ const App: React.FC = () => {
                             <Field type="radio" name="page" value="imdb"/>
                             Imdb
                         </label>
-                        <div>Picked: {formik.values.type}</div>
-                        <div>Picked2: {formik.values.page}</div>
                     </div>
                     <button type="submit">Submit</button>
                 </form>
