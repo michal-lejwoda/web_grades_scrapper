@@ -6,6 +6,7 @@ import {getImdbListData, getMetacriticListData, getOpencriticListData} from "./a
 
 
 const App: React.FC = () => {
+    const [list_of_elements, setListOfElements] = useState()
     // mutations
     const getOpencriticList = useMutation(getOpencriticListData, {
         onSuccess: (data) =>{
