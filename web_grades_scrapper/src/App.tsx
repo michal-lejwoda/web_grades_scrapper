@@ -1,32 +1,13 @@
-// import './App.css'
 import React, {useState} from "react";
+import ReactLoading from 'react-loading';
 import {Field, FormikProvider, useFormik} from 'formik';
-import {useMutation} from 'react-query'
-import {getImdbListData, getMetacriticListData, getOpencriticListData} from "./api.tsx";
+import {useGetListData} from "./mutations.tsx";
+import ListDataComponent from "./ListDataComponent.tsx";
 
 
 const App: React.FC = () => {
-    const [list_of_elements, setListOfElements] = useState()
-    // mutations
-    const getOpencriticList = useMutation(getOpencriticListData, {
-        onSuccess: (data) =>{
-            console.log(data)
-        }
-    })
-
-    const getMetacriticList = useMutation(getMetacriticListData, {
-        onSuccess: (data) =>{
-            console.log(data)
-        }
-    })
-
-    const getImdbList = useMutation(getImdbListData, {
-        onSuccess: (data) =>{
-            console.log(data)
-        }
-    })
-    const [formdata, setFormData] = useState()
-
+    const [page, setPage] = useState("opencritic")
+    const {data: ListData, mutate: mutateListData, isLoading: isLoadingListData} = useGetListData()
     const formik = useFormik({
         initialValues: {
             inputField: '',
@@ -35,17 +16,19 @@ const App: React.FC = () => {
         },
         onSubmit: (values) => {
             if (values.page == "opencritic"){
-               getOpencriticList.mutate({"name": values.inputField})
+                mutateListData({"name": values.inputField, "page_name": "opencritic"})
+                setPage("opencritic")
             }else if(values.page == "metacritic"){
-                getMetacriticList.mutate({"name": values.inputField})
+                mutateListData({"name": values.inputField, "page_name": "metacritic"})
+                setPage("metacritic")
             }else if(values.page == "imdb"){
-                getImdbList.mutate({"name": values.inputField})
+                mutateListData({"name": values.inputField, "page_name": "imdb"})
+                setPage("imdb")
             }
         }
     })
     return (
         <>
-            <h1>Test App reload</h1>
             <FormikProvider value={formik}>
                 <form onSubmit={formik.handleSubmit}>
                     <input
@@ -91,6 +74,8 @@ const App: React.FC = () => {
                     <button type="submit">Submit</button>
                 </form>
             </FormikProvider>
+            {isLoadingListData && <ReactLoading height={'20%'} width={'20%'} />}
+            {ListData && <ListDataComponent data={ListData} page={page} />}
         </>
     )
 }
