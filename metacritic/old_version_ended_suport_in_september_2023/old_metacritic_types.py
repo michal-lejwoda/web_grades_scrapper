@@ -1,9 +1,8 @@
 """List metacritic types"""
-SELECT_CONTAINER = ".c-pageSiteSearch-results"
-SELECT_RESULT_CONTAINER = "g-grid-container"
-TITLE = "g-text-medium-fluid g-text-bold g-outer-spacing-bottom-small u-text-overflow-ellipsis"
-METASCORE = "c-siteReviewScore_background c-siteReviewScore_background-critic_medium"
-PLATFORM = "u-flexbox u-flexbox-alignCenter u-flexbox-nowrap g-gap-medium g-text-xxxsmall"
+SELECT_RESULT_CONTAINER = ".result"
+TITLE = "product_title"
+METASCORE = "metascore_w"
+PLATFORM = "platform"
 
 """Detail metacritic types"""
 SELECT_DETAIL_PLATFORMS_CONTAINER = ".product_platforms"

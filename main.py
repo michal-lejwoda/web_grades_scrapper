@@ -31,8 +31,8 @@ async def root():
     return movie_detail
 
 
-@app.post("/metacritic")
-async def metacritic(name_schema: NameSchema):
+@app.post("/metacritic_old")
+async def metacritic_old(name_schema: NameSchema):
     name = name_schema.name
     url_template = "https://www.metacritic.com/search/game/{}/results"
     url = create_url(url_template, name)
@@ -40,6 +40,15 @@ async def metacritic(name_schema: NameSchema):
     list_elements = list_metacritic_games(soup)
     return list_elements
 
+
+@app.post("/metacritic")
+async def metacritic(name_schema: NameSchema):
+    name = name_schema.name
+    url_template = "https://www.metacritic.com/search/{}/"
+    url = create_url(url_template, name)
+    soup = get_soup(url)
+    list_elements = list_metacritic_games(soup)
+    return list_elements
 
 @app.post("/opencritic")
 async def opencritic(name_schema: NameSchema):

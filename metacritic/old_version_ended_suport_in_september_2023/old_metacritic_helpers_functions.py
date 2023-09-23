@@ -3,7 +3,6 @@ from typing import Optional
 
 import bs4
 import requests.sessions
-from slugify import slugify
 
 from metacritic import metacritic_types
 
@@ -12,66 +11,59 @@ from metacritic import metacritic_types
 
 def get_result_container(soup: bs4.BeautifulSoup) -> Optional[bs4.element.ResultSet]:
     try:
-        select_container = soup.select(metacritic_types.SELECT_CONTAINER)
-        result = select_container[0].find_all(attrs={"class": "u-grid-columns"}, name="div")
-        return result
+        return soup.select(metacritic_types.SELECT_RESULT_CONTAINER)
     except AttributeError:
         return None
 
 
 def get_name(result_element: bs4.element.Tag) -> Optional[str]:
     try:
-        return result_element.find("p", {"class": metacritic_types.TITLE}).text.strip()
+        return result_element.find("h3", {"class": metacritic_types.TITLE}).find('a').text.strip()
     except AttributeError:
         return None
 
 
 def get_metascore(result_element: bs4.element.Tag) -> Optional[str]:
     try:
-        return result_element.find("div", {"class": metacritic_types.METASCORE}).find("span").text
+        return result_element.find("span", {"class": metacritic_types.METASCORE}).text
     except AttributeError:
         return None
 
 
 def get_platforms(result_element: bs4.element.Tag) -> Optional[str]:
     try:
-        test = result_element.find("div", {"class": metacritic_types.PLATFORM}).find("span", {"class": None}).text.strip()
-        print(result_element.find("div", {"class": metacritic_types.PLATFORM}).find("span", {"class": None}).text.strip())
-        return result_element.find("div", {"class": metacritic_types.PLATFORM}).find("span", {"class": None}).text.strip()
+        return result_element.find("span", {"class": metacritic_types.PLATFORM}).text
     except:
         return None
 
 
 def get_img(result_element: bs4.element.Tag) -> Optional[str]:
     try:
-        return result_element.find("img", {"class": 'g-container-rounded-small'})['src']
-    except (AttributeError, TypeError):
+        return result_element.find("img")['src']
+    except AttributeError:
         return None
 
 
 def get_year(result_element: bs4.element.Tag) -> Optional[str]:
     try:
-        return result_element.find("span",{'class': 'u-text-uppercase'}).text.strip().lower()
-        # return re.search(r"(\d{4})", result_element.find("p", {"class": None}).text.strip().lower()).group(1)
+        return re.search(r"(\d{4})", result_element.find("p", {"class": None}).text.strip().lower()).group(1)
     except AttributeError:
         return None
 
 
 def get_types(result_element: bs4.element.Tag) -> Optional[str]:
     try:
-        print(result_element.find("span", {"class": "c-tagList_button"}).text.lower())
-        return result_element.find("span", {"class": "c-tagList_button"}).text.lower()
-        # return result_element.find("p", {"class": None}).text.strip().lower().replace(' ', '').replace('\n\n',
-        #                                                                                                ',').split(
-        #     ',')[1]
+        return result_element.find("p", {"class": None}).text.strip().lower().replace(' ', '').replace('\n\n',
+                                                                                                       ',').split(
+            ',')[1]
     except (AttributeError, IndexError):
         return None
 
 
-def get_url(name: str, type_of_result: str) -> Optional[str]:
+def get_url(result_element: bs4.element.Tag) -> Optional[str]:
     try:
-        return ("https://www.metacritic.com/{}/{}".format
-                (slugify(type_of_result), slugify(name)))
+        return ("https://www.metacritic.com{}".format
+                (result_element.find("h3", {"class": metacritic_types.TITLE}).find('a', href=True)['href']))
     except (AttributeError, IndexError):
         return None
 

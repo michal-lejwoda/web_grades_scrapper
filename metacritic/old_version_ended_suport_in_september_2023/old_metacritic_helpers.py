@@ -8,19 +8,20 @@ from .metacritic_helpers_functions import get_name, get_metascore, get_platforms
 
 # create_list_elements
 
+
 def list_metacritic_games(soup: bs4.BeautifulSoup) -> list:
     list_of_elements = []
     results = get_result_container(soup)
     for result_element in results:
         name = get_name(result_element)
         metascore = get_metascore(result_element)
+        platforms = get_platforms(result_element)
         img = get_img(result_element)
         year = get_year(result_element)
-        type_of_result = get_types(result_element)
-        url = get_url(name, type_of_result)
-        platforms = get_platforms(result_element)
+        types = get_types(result_element)
+        url = get_url(result_element)
         dict_of_elements = {"name": name, "metascore": metascore, "platforms": platforms,
-                            "img": img, "year": year, "types": type_of_result, "url": url}
+                            "img": img, "year": year, "types": types, "url": url}
         list_of_elements.append(create_dict_without_none_objects(dict_of_elements))
     return list_of_elements
 
