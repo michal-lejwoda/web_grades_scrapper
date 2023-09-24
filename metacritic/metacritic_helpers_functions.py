@@ -35,8 +35,6 @@ def get_metascore(result_element: bs4.element.Tag) -> Optional[str]:
 
 def get_platforms(result_element: bs4.element.Tag) -> Optional[str]:
     try:
-        test = result_element.find("div", {"class": metacritic_types.PLATFORM}).find("span", {"class": None}).text.strip()
-        print(result_element.find("div", {"class": metacritic_types.PLATFORM}).find("span", {"class": None}).text.strip())
         return result_element.find("div", {"class": metacritic_types.PLATFORM}).find("span", {"class": None}).text.strip()
     except:
         return None
