@@ -37,7 +37,7 @@ def get_platforms(result_element: bs4.element.Tag) -> Optional[str]:
     try:
         return result_element.find("div", {"class": metacritic_types.PLATFORM}).find("span",
                                                                                      {"class": None}).text.strip()
-    except:
+    except AttributeError:
         return None
 
 
@@ -60,9 +60,6 @@ def get_types(result_element: bs4.element.Tag) -> Optional[str]:
     try:
         print(result_element.find("span", {"class": "c-tagList_button"}).text.lower())
         return result_element.find("span", {"class": "c-tagList_button"}).text.lower()
-        # return result_element.find("p", {"class": None}).text.strip().lower().replace(' ', '').replace('\n\n',
-        #                                                                                                ',').split(
-        #     ',')[1]
     except (AttributeError, IndexError):
         return None
 
@@ -106,9 +103,7 @@ def get_rest_platforms(soup: bs4.BeautifulSoup) -> list:
             all_platform_data.append({"critic_score": critic_score, "critic_based_on": critic_based_on,
                                       'platform': platform_name})
         return all_platform_data
-    except Exception as error:
-        print(error)
-        print("error")
+    except AttributeError:
         return None
 
 
