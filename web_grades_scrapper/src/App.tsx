@@ -6,7 +6,7 @@ import ListDataComponent from "./ListDataComponent.tsx";
 
 
 const App: React.FC = () => {
-    const [page, setPage] = useState("opencritic")
+    const [page, setPage] = useState<string>("opencritic")
     const {data: ListData, mutate: mutateListData, isLoading: isLoadingListData} = useGetListData()
     const formik = useFormik({
         initialValues: {
@@ -15,13 +15,13 @@ const App: React.FC = () => {
             page: 'opencritic'
         },
         onSubmit: (values) => {
-            if (values.page == "opencritic"){
+            if (values.page == "opencritic") {
                 mutateListData({"name": values.inputField, "page_name": "opencritic"})
                 setPage("opencritic")
-            }else if(values.page == "metacritic"){
+            } else if (values.page == "metacritic") {
                 mutateListData({"name": values.inputField, "page_name": "metacritic"})
                 setPage("metacritic")
-            }else if(values.page == "imdb"){
+            } else if (values.page == "imdb") {
                 mutateListData({"name": values.inputField, "page_name": "imdb"})
                 setPage("imdb")
             }
@@ -55,8 +55,6 @@ const App: React.FC = () => {
                             Album
                         </label>
                     </div>
-
-
                     <div role="group" aria-labelledby="my-radio-group">
                         <label>
                             <Field checked="checked" type="radio" name="page" value="opencritic"/>
@@ -74,8 +72,8 @@ const App: React.FC = () => {
                     <button type="submit">Submit</button>
                 </form>
             </FormikProvider>
-            {isLoadingListData && <ReactLoading height={'20%'} width={'20%'} />}
-            {ListData && <ListDataComponent data={ListData} page={page} />}
+            {isLoadingListData && <ReactLoading height={'20%'} width={'20%'}/>}
+            {ListData && <ListDataComponent data={ListData} page={page}/>}
         </>
     )
 }

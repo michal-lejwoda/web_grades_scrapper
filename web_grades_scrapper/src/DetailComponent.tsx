@@ -1,15 +1,17 @@
 import React from 'react';
 import {useLocation} from "react-router-dom";
+import MetacriticDetails from "./details/MetacriticDetails.tsx";
+import OpencriticDetails from "./details/OpencriticDetails.tsx";
+import ImdbDetails from "./details/ImdbDetails.tsx";
 
 function DetailComponent() {
     const location = useLocation()
-    console.log("location")
-    console.log(location)
-    return (
-        <h1>
-            Detail Component
-        </h1>
-    )
+    if(location.state.page == "metacritic")
+        return (<MetacriticDetails />)
+    if(location.state.page == "opencritic")
+        return (<OpencriticDetails />)
+    if(location.state.page == "imdb")
+        return (<ImdbDetails />)
 
 }
 
