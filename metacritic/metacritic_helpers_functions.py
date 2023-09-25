@@ -35,7 +35,8 @@ def get_metascore(result_element: bs4.element.Tag) -> Optional[str]:
 
 def get_platforms(result_element: bs4.element.Tag) -> Optional[str]:
     try:
-        return result_element.find("div", {"class": metacritic_types.PLATFORM}).find("span", {"class": None}).text.strip()
+        return result_element.find("div", {"class": metacritic_types.PLATFORM}).find("span",
+                                                                                     {"class": None}).text.strip()
     except:
         return None
 
@@ -49,7 +50,7 @@ def get_img(result_element: bs4.element.Tag) -> Optional[str]:
 
 def get_year(result_element: bs4.element.Tag) -> Optional[str]:
     try:
-        return result_element.find("span",{'class': 'u-text-uppercase'}).text.strip().lower()
+        return result_element.find("span", {'class': 'u-text-uppercase'}).text.strip().lower()
         # return re.search(r"(\d{4})", result_element.find("p", {"class": None}).text.strip().lower()).group(1)
     except AttributeError:
         return None
@@ -73,12 +74,14 @@ def get_url(name: str, type_of_result: str) -> Optional[str]:
     except (AttributeError, IndexError):
         return None
 
+
 def create_dict_without_none_objects(dict_elements: dict) -> dict:
     new_dict = {}
     for single_element in dict_elements.keys():
         if dict_elements[single_element] != None:
             new_dict[single_element] = dict_elements[single_element]
     return new_dict
+
 
 """Detail metacritic functions"""
 
@@ -90,65 +93,66 @@ def get_main_container(soup: bs4.BeautifulSoup) -> Optional[bs4.element.Tag]:
         return None
 
 
-def get_rest_platforms(soup: bs4.BeautifulSoup, session: requests.sessions.Session) -> list:
+def get_rest_platforms(soup: bs4.BeautifulSoup) -> list:
     try:
         all_platform_data = []
-        product_platforms_container = soup.select(metacritic_types.SELECT_DETAIL_PLATFORMS_CONTAINER)
-        rest = product_platforms_container[0].find("span", {"class": "data"})
-        rest_platforms = rest.find_all("a", href=True)
-        for platform in rest_platforms:
-            response = session.get("https://www.metacritic.com{}".format(platform['href']))
-            soup = bs4.BeautifulSoup(response.text, 'lxml')
-            main_container = soup.select(metacritic_types.SELECT_DETAIL_MAIN_CONTAINER)[0]
-            img_container = main_container.find("img")
-            single_platform_summary = main_container.find("div", {"class": metacritic_types.SINGLE_PLATFORM_SUMMARY})
-            try:
-                critic_score = single_platform_summary.find(name="span",
-                                                            attrs={"itemprop": metacritic_types.CRITIC_SCORE}).text
-                critic_based_on = single_platform_summary.find(name="span",
-                                                               attrs={"class": metacritic_types.CRITIC_BASED_ON}).find(
-                    "a").find(
-                    "span").text.strip()
-            except:
-                critic_score = None
-                critic_based_on = None
-            user_score = single_platform_summary.find(name="div", attrs={"class": metacritic_types.USER_SCORE}).text
-            user_based_on = \
-                single_platform_summary.find(name="div", attrs={"class": metacritic_types.USER_BASED_ON}).find(
-                    name="span", attrs={"class": metacritic_types.CRITIC_BASED_ON}).find("a").text.strip().split(" ")[0]
-            img = {
-                "src": img_container['src'],
-                "alt": img_container['alt']
-            }
-            current_platform = main_container.find(name="span", attrs={"class": metacritic_types.PLATFORM}).find(
-                "a").text.strip()
+        product_platforms_container = soup.select(".c-gamePlatformsSection_list")
+        list_of_platforms_containers = product_platforms_container[0].find_all(name="a",
+                                                                               attrs={"class": "c-gamePlatformTile"})
+        for platform in list_of_platforms_containers:
+            platform_name = get_platform_name(platform)
+            critic_based_on = get_critic_based_on_text(platform)
+            critic_score = get_critic_score(platform)
             all_platform_data.append({"critic_score": critic_score, "critic_based_on": critic_based_on,
-                                      "user_score": user_score, "user_based_on": user_based_on,
-                                      "img": img, 'platform': current_platform, })
+                                      'platform': platform_name})
         return all_platform_data
-    except (AttributeError, IndexError):
+    except Exception as error:
+        print(error)
+        print("error")
         return None
 
 
 def get_genres(main_container: bs4.element.Tag) -> Optional[list]:
     try:
-        genres_list = []
-        genres = main_container.find(name='li', attrs={"class": metacritic_types.GENRES}).find_all(
-            attrs={"class": "data"}, name="span")
+        genres = main_container.find_all(name='li', attrs={"class": 'c-genreList_item'})
+        list_of_genres = []
         for genre in genres:
-            genres_list.append(genre.text)
-        return genres_list
+            list_of_genres.append(genre.text.strip())
+            return list_of_genres
     except AttributeError:
         return None
 
 
 def get_developers(main_container: bs4.element.Tag) -> Optional[list]:
     try:
-        developers_list = []
-        developers = main_container.find(name='li', attrs={"class": metacritic_types.DEVELOPERS}).find_all(name='a')
+        return_developers = []
+        developers = main_container.find(name='div', attrs={"class": "c-gameDetails_Developer"}).find_all(name="li",
+                                                                                                          attrs={
+                                                                                                              "class": "c-gameDetails_listItem"})
         for developer in developers:
-            developers_list.append(developer.text)
-        return developers_list
+            return_developers.append(developer.text.strip())
+        return ", ".join(return_developers)
+    except AttributeError:
+        return None
+
+
+def get_publishers(main_container: bs4.element.Tag) -> Optional[list]:
+    try:
+        return_publishers = []
+        developers = main_container.find(name='div', attrs={"class": "c-gameDetails_Distributor"}).find_all(
+            name="span")[1:]
+        for developer in developers:
+            return_publishers.append(developer.text.strip())
+        return ", ".join(return_publishers)
+    except AttributeError:
+        return None
+
+
+def get_release_date(main_container: bs4.element.Tag) -> Optional[list]:
+    try:
+        release_date = main_container.find(name='div', attrs={"class": "c-gameDetails_ReleaseDate"}).find_all(
+            name="span")[1].text
+        return release_date
     except AttributeError:
         return None
 
@@ -156,5 +160,62 @@ def get_developers(main_container: bs4.element.Tag) -> Optional[list]:
 def get_summary(main_container: bs4.element.Tag) -> Optional[str]:
     try:
         return main_container.find(name='span', attrs={"class": metacritic_types.SUMMARY}).text
+    except AttributeError:
+        return None
+
+
+def get_platform_name(platform):
+    try:
+        return platform.find(name="title", attrs={"class": None}).text
+    except AttributeError:
+        return None
+
+
+def get_critic_based_on_text(platform):
+    try:
+        return platform.find(name="p", attrs={"class": "g-text-xsmall"}).text.strip()
+    except AttributeError:
+        return None
+
+
+def get_critic_score(platform):
+    try:
+        return platform.find(name="span", attrs={"class": None}).text.strip()
+    except AttributeError:
+        return None
+
+
+def get_user_data(main_container: bs4.element.Tag) -> Optional[str]:
+    try:
+        user_reviews_container = main_container.find(name="div", attrs={"class": "c-reviewsSection_userReviews"}).find(name="div", attrs={"class": "c-reviewsSummaryHeader"})
+        print(user_reviews_container)
+        user_score_sentiment = get_user_score_sentiment(user_reviews_container)
+        user_score = get_user_score(user_reviews_container)
+        user_based_on = get_user_based_on(user_reviews_container)
+        return {"user_score_sentiment": user_score_sentiment, "user_score": user_score, "user_based_on": user_based_on}
+    except:
+        return None
+
+
+def get_user_score_sentiment(user_reviews_container: bs4.element.Tag) -> Optional[str]:
+    try:
+        return user_reviews_container.find(name="span",
+                                           attrs={"class": "c-ScoreCard_scoreSentiment"}).text.strip()
+
+    except AttributeError:
+        return None
+
+
+def get_user_score(user_reviews_container: bs4.element.Tag) -> Optional[str]:
+    try:
+        return user_reviews_container.find(name="div",
+                                           attrs={"class": "c-siteReviewScore"}).text
+    except AttributeError:
+        return None
+
+
+def get_user_based_on(user_reviews_container: bs4.element.Tag) -> Optional[str]:
+    try:
+        return user_reviews_container.find(name="span", attrs={"class": "c-ScoreCard_reviewsTotal"}).text
     except AttributeError:
         return None
