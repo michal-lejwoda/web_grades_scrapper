@@ -30,6 +30,10 @@ export async function  getMetacriticDetailData(data: DetailData){
 }
 
 export async function  getImdbDetailData(data: DetailData){
+    console.log("data")
+    console.log(data)
     const response = await instance.post(`http://0.0.0.0:8000/imdb_detail`, data);
+    console.log("response.data")
+    console.log(response.data)
     return response.data;
 }

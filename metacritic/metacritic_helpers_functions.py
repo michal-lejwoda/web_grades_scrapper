@@ -51,14 +51,12 @@ def get_img(result_element: bs4.element.Tag) -> Optional[str]:
 def get_year(result_element: bs4.element.Tag) -> Optional[str]:
     try:
         return result_element.find("span", {'class': 'u-text-uppercase'}).text.strip().lower()
-        # return re.search(r"(\d{4})", result_element.find("p", {"class": None}).text.strip().lower()).group(1)
     except AttributeError:
         return None
 
 
 def get_types(result_element: bs4.element.Tag) -> Optional[str]:
     try:
-        print(result_element.find("span", {"class": "c-tagList_button"}).text.lower())
         return result_element.find("span", {"class": "c-tagList_button"}).text.lower()
     except (AttributeError, IndexError):
         return None
@@ -183,7 +181,6 @@ def get_critic_score(platform):
 def get_user_data(main_container: bs4.element.Tag) -> Optional[str]:
     try:
         user_reviews_container = main_container.find(name="div", attrs={"class": "c-reviewsSection_userReviews"}).find(name="div", attrs={"class": "c-reviewsSummaryHeader"})
-        print(user_reviews_container)
         user_score_sentiment = get_user_score_sentiment(user_reviews_container)
         user_score = get_user_score(user_reviews_container)
         user_based_on = get_user_based_on(user_reviews_container)
