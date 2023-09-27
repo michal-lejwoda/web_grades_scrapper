@@ -1,12 +1,11 @@
-import React from 'react';
 import {useNavigate} from "react-router-dom";
-import DetailComponent from "./DetailComponent.tsx";
 import OpencriticList from "./lists/OpencriticList.tsx";
 import ImdbList from "./lists/ImdbList.tsx";
 import MetacriticList from "./lists/MetacriticList.tsx";
+// import PropTypes from "prop-types";
 
 
-function ListDataComponent(props) {
+function ListDataComponent(props: any) {
     const navigate = useNavigate()
     const handleNavigation = (url: string, page: string) => {
         navigate("/detail", {
@@ -28,15 +27,11 @@ function ListDataComponent(props) {
         return (
             <OpencriticList data={props.data} handleNavigation={handleNavigation}/>
         )
-        // const list_of_opencritic_elements = props.data.map((element) => <div
-        //     onClick={() => handleNavigation(element.url)} key={element.id}>{element.name}</div>)
-        // return (
-        //     <>
-        //         {list_of_opencritic_elements}
-        //     </>
-        // )
     }
-
 }
+// ListDataComponent.propTypes = {
+//     data: PropTypes.array,
+//     page: PropTypes.string
+// };
 
 export default ListDataComponent

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import ReactLoading from 'react-loading';
-import {Field, FormikProvider, FormikValues, useFormik} from 'formik';
+import {Field, FormikProvider, useFormik} from 'formik';
 import {useGetListData} from "./mutations.tsx";
 import ListDataComponent from "./ListDataComponent.tsx";
 
@@ -37,24 +37,24 @@ const App: React.FC = () => {
                         onChange={formik.handleChange}
                         value={formik.values.inputField}
                     />
-                    <div role="group" aria-labelledby="my-radio-group">
-                        <label>
-                            <Field checked="checked" type="radio" name="type" value="all_items"/>
-                            All items
-                        </label>
-                        <label>
-                            <Field type="radio" name="type" value="movie"/>
-                            Movie
-                        </label>
-                        <label>
-                            <Field type="radio" name="type" value="game"/>
-                            Game
-                        </label>
-                        <label>
-                            <Field type="radio" name="type" value="album"/>
-                            Album
-                        </label>
-                    </div>
+                    {/*<div role="group" aria-labelledby="my-radio-group">*/}
+                    {/*    <label>*/}
+                    {/*        <Field checked="checked" type="radio" name="type" value="all_items"/>*/}
+                    {/*        All items*/}
+                    {/*    </label>*/}
+                    {/*    <label>*/}
+                    {/*        <Field type="radio" name="type" value="movie"/>*/}
+                    {/*        Movie*/}
+                    {/*    </label>*/}
+                    {/*    <label>*/}
+                    {/*        <Field type="radio" name="type" value="game"/>*/}
+                    {/*        Game*/}
+                    {/*    </label>*/}
+                    {/*    <label>*/}
+                    {/*        <Field type="radio" name="type" value="album"/>*/}
+                    {/*        Album*/}
+                    {/*    </label>*/}
+                    {/*</div>*/}
                     <div role="group" aria-labelledby="my-radio-group">
                         <label>
                             <Field checked="checked" type="radio" name="page" value="opencritic"/>

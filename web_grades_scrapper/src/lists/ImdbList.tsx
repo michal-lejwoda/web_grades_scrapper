@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import {PropsList} from "../interfaces.tsx";
+// import PropTypes from 'prop-types';
 
-const ImdbList = props => {
+function ImdbList (props: PropsList){
     const list_of_imdb_elements = props.data.map((element) => <div
         onClick={() => props.handleNavigation(element.url, "imdb")}
         key={element.id}>{element.title}</div>)
@@ -12,9 +12,9 @@ const ImdbList = props => {
     )
 };
 
-ImdbList.propTypes = {
-    handleNavigation: PropTypes.func,
-    data: PropTypes.array
-};
+// ImdbList.propTypes = {
+//     handleNavigation: PropTypes.func,
+//     data: PropTypes.array
+// };
 
 export default ImdbList;
