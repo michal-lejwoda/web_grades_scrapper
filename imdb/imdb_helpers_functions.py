@@ -104,19 +104,25 @@ def get_imdb_rating(container: bs4.element.Tag) -> Optional[str]:
 def get_data(container: bs4.element.Tag) -> Optional[list]:
     try:
         data_container = container.find(name="ul", attrs={"class": imdb_types.DATA_CONTAINER})
-        data_results = data_container.find_all(name="a")
+        data_results = data_container.find_all(name="li", attrs={"class": "ipc-metadata-list__item"})
         data = []
         for data_res in data_results:
-            data.append(data_res.text)
+            try:
+                column_name = data_res.find('span').text
+                column_res = data_res.find('a').text
+                data.append({column_name: column_res})
+            except (AttributeError, IndexError):
+                continue
         return data
-    except (AttributeError, IndexError):
+    except (AttributeError, IndexError) as e:
+        print(e)
         return None
 
 
 def get_presentations(container: bs4.element.Tag) -> Optional[list]:
     try:
         presentations = []
-        presentations_container = container.find(name="div",
+        presentations_container = container.find(name="ul",
                                                  attrs={"class": imdb_types.PRESENTATION_CONTAINER}).find_all(
             name="li", attrs={
                 "class": imdb_types.PRESENTATION_ELEMENTS})

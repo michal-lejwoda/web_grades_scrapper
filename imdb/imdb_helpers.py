@@ -20,8 +20,9 @@ def get_imdb_movies_list(soup: bs4.BeautifulSoup) -> list:
 
 def detail_imdb_movie(soup: bs4.BeautifulSoup) -> dict:
     container = get_container(soup)
+
     title = get_title(container)
-    data = get_data(container)
+    # data = get_data(container)
     imdb_rating = get_imdb_rating(container)
     imdb_rating_based_on = get_imdb_rating_based_on(container)
     # Nie zawsze jest
@@ -33,7 +34,9 @@ def detail_imdb_movie(soup: bs4.BeautifulSoup) -> dict:
     photos = get_photos(container)
     actors = get_actors(container)
     more_like_this = get_more_like_this(container)
-    return {"data": data, "title": title, "presentations": presentations,
+    return {
+            # "data": data,
+            "title": title, "presentations": presentations,
             "imdb_rating": imdb_rating, "imdb_rating_based_on": imdb_rating_based_on,
             "popularity": popularity, "metascore": metascore, "user_reviews_number": user_reviews_number,
             "critic_reviews_number": critic_reviews_number,
