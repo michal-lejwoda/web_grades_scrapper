@@ -82,6 +82,7 @@ def create_dict_without_none_objects(dict_elements: dict) -> dict:
 
 
 def get_main_container(soup: bs4.BeautifulSoup) -> Optional[bs4.element.Tag]:
+    print(soup.select(metacritic_types.SELECT_DETAIL_MAIN_CONTAINER))
     try:
         return soup.select(metacritic_types.SELECT_DETAIL_MAIN_CONTAINER)[0]
     except (AttributeError, IndexError):
@@ -101,7 +102,7 @@ def get_rest_platforms(soup: bs4.BeautifulSoup) -> list:
             all_platform_data.append({"critic_score": critic_score, "critic_based_on": critic_based_on,
                                       'platform': platform_name})
         return all_platform_data
-    except AttributeError:
+    except (AttributeError, IndexError):
         return None
 
 

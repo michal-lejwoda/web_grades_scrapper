@@ -28,53 +28,45 @@ const App: React.FC = () => {
         }
     })
     return (
-        <>
-            <FormikProvider value={formik}>
-                <form onSubmit={formik.handleSubmit}>
-                    <input
-                        id="inputField"
-                        type="text"
-                        onChange={formik.handleChange}
-                        value={formik.values.inputField}
-                    />
-                    {/*<div role="group" aria-labelledby="my-radio-group">*/}
-                    {/*    <label>*/}
-                    {/*        <Field checked="checked" type="radio" name="type" value="all_items"/>*/}
-                    {/*        All items*/}
-                    {/*    </label>*/}
-                    {/*    <label>*/}
-                    {/*        <Field type="radio" name="type" value="movie"/>*/}
-                    {/*        Movie*/}
-                    {/*    </label>*/}
-                    {/*    <label>*/}
-                    {/*        <Field type="radio" name="type" value="game"/>*/}
-                    {/*        Game*/}
-                    {/*    </label>*/}
-                    {/*    <label>*/}
-                    {/*        <Field type="radio" name="type" value="album"/>*/}
-                    {/*        Album*/}
-                    {/*    </label>*/}
-                    {/*</div>*/}
-                    <div role="group" aria-labelledby="my-radio-group">
-                        <label>
-                            <Field checked="checked" type="radio" name="page" value="opencritic"/>
-                            Opencritic
-                        </label>
-                        <label>
-                            <Field type="radio" name="page" value="metacritic"/>
-                            Metacritic
-                        </label>
-                        <label>
-                            <Field type="radio" name="page" value="imdb"/>
-                            Imdb
-                        </label>
-                    </div>
-                    <button type="submit">Submit</button>
-                </form>
-            </FormikProvider>
-            {isLoadingListData && <ReactLoading height={'20%'} width={'20%'}/>}
-            {ListData && <ListDataComponent data={ListData} page={page}/>}
-        </>
+        <div className="w-full items-center flex text-white flex flex-col h-full">
+            <div className="form_container w-full h-1/2 flex justify-center">
+
+                <FormikProvider value={formik}>
+                    <form className="w-full justify-center items-center flex flex-col"
+                          onSubmit={formik.handleSubmit}>
+                        <p className="text-center text-3xl mb-5">Wyszukiwarka ocen</p>
+                        <div className="w-1/2 flex justify-center input_field mb-5">
+                            <input
+                                className="w-full py-2 px-3 rounded-lg text-lg md:mr-3 border-2 rounded-lg border-white text-black"
+                                id="inputField"
+                                type="text"
+                                onChange={formik.handleChange}
+                                value={formik.values.inputField}
+                            />
+                        </div>
+                        <div className="radio_fields text-xl " role="group" aria-labelledby="my-radio-group">
+                            <label className="mr-5">
+                                <Field checked="checked" type="radio" name="page" value="opencritic"/>
+                                Opencritic
+                            </label>
+                            <label className="mr-5">
+                                <Field type="radio" name="page" value="metacritic" className="ml-2"/>
+                                Metacritic
+                            </label>
+                            <label>
+                                <Field type="radio" name="page" value="imdb"/>
+                                Imdb
+                            </label>
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+                </FormikProvider>
+            </div>
+            <div className="results w-full h-1/2 flex justify-center">
+                {isLoadingListData && <ReactLoading height={'10%'} width={'10%'}/>}
+                {ListData && <ListDataComponent data={ListData} page={page}/>}
+            </div>
+        </div>
     )
 }
 
