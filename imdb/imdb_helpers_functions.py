@@ -31,6 +31,14 @@ def get_list_description(element: bs4.element.Tag) -> Optional[list]:
         return None
 
 
+def get_list_url(element: bs4.element.Tag) -> Optional[str]:
+    try:
+        return ("https://www.imdb.com{}"
+                .format(element.find("a", {"class": imdb_types.LIST_TITLE}, href=True)['href']))
+    except AttributeError:
+        return None
+
+
 """Detail imdb functions"""
 
 
@@ -40,11 +48,13 @@ def get_container(soup: bs4.BeautifulSoup) -> Optional[bs4.element.Tag]:
     except AttributeError:
         return None
 
+
 def get_title(container: bs4.element.Tag) -> Optional[str]:
     try:
         return container.find(name="span", attrs={"class": imdb_types.TITLE}).text
     except AttributeError:
         return None
+
 
 def get_critic_reviews_number(container: bs4.element.Tag) -> Optional[str]:
     try:
@@ -52,11 +62,13 @@ def get_critic_reviews_number(container: bs4.element.Tag) -> Optional[str]:
     except (AttributeError, IndexError):
         return None
 
+
 def get_user_reviews_number(container: bs4.element.Tag) -> Optional[str]:
     try:
         return container.find_all(name="span", attrs={"class": imdb_types.SCORE})[0].text
     except (AttributeError, IndexError):
         return None
+
 
 def get_metascore(container: bs4.element.Tag) -> Optional[str]:
     try:
@@ -64,17 +76,20 @@ def get_metascore(container: bs4.element.Tag) -> Optional[str]:
     except AttributeError:
         return None
 
+
 def get_popularity(container: bs4.element.Tag) -> Optional[str]:
     try:
         return container.find(name="div", attrs={"data-testid": imdb_types.POPULARITY}).text
     except AttributeError:
         return None
 
+
 def get_imdb_rating_based_on(container: bs4.element.Tag) -> Optional[str]:
     try:
         return container.find(name="div", attrs={"class": imdb_types.IMDB_RATING_BASED_ON}).text
     except AttributeError:
         return None
+
 
 def get_imdb_rating(container: bs4.element.Tag) -> Optional[str]:
     try:
@@ -85,29 +100,37 @@ def get_imdb_rating(container: bs4.element.Tag) -> Optional[str]:
     except AttributeError:
         return None
 
+
 def get_data(container: bs4.element.Tag) -> Optional[list]:
     try:
         data_container = container.find(name="ul", attrs={"class": imdb_types.DATA_CONTAINER})
-        data_results = data_container.find_all(name="a")
+        data_results = data_container.find_all(name="li", attrs={"class": "ipc-metadata-list__item"})
         data = []
         for data_res in data_results:
-            data.append(data_res.text)
+            try:
+                column_name = data_res.find('span').text
+                column_res = data_res.find('a').text
+                data.append({column_name: column_res})
+            except (AttributeError, IndexError):
+                continue
         return data
-    except (AttributeError, IndexError):
+    except (AttributeError, IndexError) as e:
+        print(e)
         return None
 
 
 def get_presentations(container: bs4.element.Tag) -> Optional[list]:
     try:
         presentations = []
-        presentations_container = container.find(name="div", attrs={"class": imdb_types.PRESENTATION_CONTAINER}).find_all(
+        presentations_container = container.find(name="ul",
+                                                 attrs={"class": imdb_types.PRESENTATION_CONTAINER}).find_all(
             name="li", attrs={
                 "class": imdb_types.PRESENTATION_ELEMENTS})
 
         for presentation in presentations_container:
             try:
                 label = presentation.find(name="span", attrs={"class": imdb_types.PRESENTATION_ELEMENTS_LABEL}).text
-            except:
+            except AttributeError:
                 label = presentation.find(name="a", attrs={"class": imdb_types.PRESENTATION_ELEMENTS_LABEL}).text
             li_presentation = presentation.find_all(name="li", attrs={"class": imdb_types.NESTED_PRESENTATION_ELEMENTS})
             li_presentation_results = []
@@ -120,14 +143,14 @@ def get_presentations(container: bs4.element.Tag) -> Optional[list]:
         return None
 
 
-
 def get_more_like_this(container: bs4.element.Tag) -> Optional[list]:
     try:
         more_like_this_container = container.find_all(name="div", attrs={"class": imdb_types.MORE_LIKE_THIS_CONTAINER})
         list_more_like_this = []
         for more_like_this in more_like_this_container:
             more_like_this_title = more_like_this.find(name="span",
-                                                       attrs={"data-testid": imdb_types.MORE_LIKE_THIS_ELEMENT_TITLE}).text
+                                                       attrs={
+                                                           "data-testid": imdb_types.MORE_LIKE_THIS_ELEMENT_TITLE}).text
             more_like_this_rating = more_like_this.find(name="div",
                                                         attrs={"class": imdb_types.MORE_LIKE_THIS_ELEMENT_RATING}).find(
                 name="span").text
@@ -146,7 +169,7 @@ def get_actors(container: bs4.element.Tag) -> Optional[list]:
         actors_container = container.find_all(name="div", attrs={"class": imdb_types.ACTORS_CONTAINER})
         actors = []
         for actor in actors_container:
-            if actor.find(name="img") == None:
+            if actor.find(name="img") is None:
                 actor_img = {"src": None, "alt": None}
             else:
                 actor_img = {"src": actor.find(name="img")['src'], "alt": actor.find(name="img")['alt']}
@@ -168,4 +191,3 @@ def get_photos(container: bs4.element.Tag) -> Optional[list]:
         return photos
     except (AttributeError, IndexError):
         return None
-

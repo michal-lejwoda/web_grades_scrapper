@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  scrapper_nginx:
+    image: nginx
+    container_name: scrapper_nginx
+    build:
+      context: .
+      dockerfile: ./compose/local/nginx/Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    volumes:
+      - "/app/backend/local-backend-static:/app/backend/local-backend-static"
+    depends_on:
+      - scrapper_backend
+      - scrapper_frontend
+    networks:
+      - scrapper
+
+  scrapper_frontend:
+    image: vite-docker-container
+    stdin_open: true
+    container_name: scrapper_frontend
+    build:
+      context: .
+      dockerfile: ./compose/local/scrapper_frontend/Dockerfile
+    volumes:
+      - "./web_grades_scrapper:/usr/src/frontend:delegated"
+    ports:
+      - "3000:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - scrapper
+
+  scrapper_backend:
+    container_name: scrapper_backend
+    build:
+      context: .
+      dockerfile: ./compose/local/scrapper_backend/Dockerfile
+    command: /start_scrapper_backend
+    ports:
+      #HOST:CONTAINER
+      - "8000:80"
+    networks:
+      - scrapper
+
+networks:
+  scrapper:

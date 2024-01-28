@@ -6,11 +6,11 @@ from .opencritic_helpers_functions import (get_opencritic_api_data, get_main_con
                                            get_opencritic_release_date,
                                            get_opencritic_title, get_opencritic_scores_container,
                                            get_opencritic_critic_score, get_opencritic_critic_recommend,
-                                           get_opencritic_critic_rating_img)
+                                           get_opencritic_critic_rating_img, loop_results_and_get_more_info)
 
 
 def get_opencritic_games_list_json(url_template: str, name: str) -> Optional[list]:
-    return get_opencritic_api_data(url_template, name)
+    return loop_results_and_get_more_info(get_opencritic_api_data(url_template, name))
 
 
 def detail_opencritic_games(soup: bs4.BeautifulSoup) -> dict:
