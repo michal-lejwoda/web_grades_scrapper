@@ -18,7 +18,7 @@ function ImdbList (props: PropsList){
                                 {element.title}
                             </p>
                             <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                                {element.description.map((el)=>{
+                                {element.description.map((el: string)=>{
                                 return(<span>{el} </span>)
                             })}
                             </p>

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
 import MetacriticDetails from "./details/MetacriticDetails.tsx";
 import OpencriticDetails from "./details/OpencriticDetails.tsx";
@@ -11,7 +11,7 @@ function DetailComponent() {
         navigate("/")
     }
     useEffect(() => {
-        if(location.state == null)
+        if (location.state == null)
             return handleNavigationtoList()
     }, []);
 

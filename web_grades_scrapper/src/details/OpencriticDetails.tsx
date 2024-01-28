@@ -1,15 +1,18 @@
 import React, {useEffect} from 'react';
-import PropTypes from 'prop-types';
 import {useGetOpencriticDetails} from "../mutations.tsx";
 
-const OpencriticDetails = props => {
+interface OpencriticDetailsProps {
+    url: string
+}
+
+const OpencriticDetails: React.FC<OpencriticDetailsProps> = props => {
     useEffect(() => {
         mutateOpencriticData({"url": props.url})
     }, [])
     const {
         data: OpencriticData,
         mutate: mutateOpencriticData,
-        isLoading: isLoadingOpencriticData
+        // isLoading: isLoadingOpencriticData
     } = useGetOpencriticDetails()
 
     mutateOpencriticData({"url": props.url})
@@ -23,7 +26,4 @@ const OpencriticDetails = props => {
     );
 };
 
-OpencriticDetails.propTypes = {
-    url: PropTypes.string,
-};
 export default OpencriticDetails;

@@ -1,15 +1,19 @@
 import React, {useEffect} from 'react';
-import PropTypes from "prop-types";
 import {useGetMetacriticDetails} from "../mutations.tsx";
 
-const MetacriticDetails = props => {
+interface MetacriticDetailsProps {
+    url: string
+
+}
+
+const MetacriticDetails: React.FC<MetacriticDetailsProps> = props => {
     useEffect(() => {
         mutateMetacriticData({"url": props.url})
     }, [])
     const {
         data: MetacriticData,
         mutate: mutateMetacriticData,
-        isLoading: isLoadingMetacriticData
+        // isLoading: isLoadingMetacriticData
     } = useGetMetacriticDetails()
     console.log("MetacriticData")
     console.log(MetacriticData)
@@ -19,8 +23,9 @@ const MetacriticDetails = props => {
         </div>
     );
 };
-MetacriticDetails.propTypes = {
-    url: PropTypes.string,
-};
+
+// MetacriticDetails.propTypes = {
+//     url: PropTypes.string,
+// };
 
 export default MetacriticDetails;
