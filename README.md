@@ -10,6 +10,7 @@
 - Fast api
 ### Frontend:
 - React
+- Typescript
 
 ## Application technology description
 
