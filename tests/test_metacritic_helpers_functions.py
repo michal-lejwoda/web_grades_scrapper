@@ -5,7 +5,7 @@ import bs4.element
 from helpers import create_url, get_soup, create_session
 from metacritic.metacritic_helpers_functions import get_result_container, get_name, get_metascore, get_platforms, \
     get_img, get_types, get_main_container, get_rest_platforms, get_genres, get_developers, get_summary, get_year, \
-    get_url
+    get_url, get_main_image
 
 """List metacritic tests"""
 
@@ -143,11 +143,16 @@ def test_get_genres_result_type():
     assert type(get_genres(main_container)) == list
 
 
+
 def test_get_developers_result_type():
     soup = get_test_rdr2_detail_metacritic_soup()
     main_container = get_main_container(soup)
     assert type(get_developers(main_container)) == str
 
+def test_get_main_image():
+    soup = get_test_rdr2_detail_metacritic_soup()
+    main_container = get_main_container(soup)
+    assert type(get_main_image(main_container)) == str
 
 def test_get_summary_result_type():
     soup = get_test_rdr2_detail_metacritic_soup()

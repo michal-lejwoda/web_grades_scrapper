@@ -115,7 +115,6 @@ def get_data(container: bs4.element.Tag) -> Optional[list]:
                 continue
         return data
     except (AttributeError, IndexError) as e:
-        print(e)
         return None
 
 
