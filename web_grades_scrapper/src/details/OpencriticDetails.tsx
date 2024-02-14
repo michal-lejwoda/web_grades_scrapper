@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {useGetOpencriticDetails} from "../mutations.tsx";
+import ReactLoading from "react-loading";
 
 interface OpencriticDetailsProps {
     url: string
@@ -12,11 +13,13 @@ const OpencriticDetails: React.FC<OpencriticDetailsProps> = props => {
     const {
         data: OpencriticData,
         mutate: mutateOpencriticData,
-        isSuccess
+        isSuccess,
+        isLoading
     } = useGetOpencriticDetails()
     return (
         <>
-            {isSuccess && (
+
+            {isSuccess ? (
                 <div className="text-white p-5 md:flex xl:flex xl:justify-center">
                     <div className="md:pr-4">
                         <img src={OpencriticData.img.src} alt=""/>
@@ -55,7 +58,7 @@ const OpencriticDetails: React.FC<OpencriticDetailsProps> = props => {
                         })}
                     </div>
                 </div>
-            )}
+            ): <div className="flex justify-center"><ReactLoading height={'10%'} width={'10%'}/></div>}
         </>
     );
 };

@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {useGetImdbDetails} from "../mutations.tsx";
+import ReactLoading from "react-loading";
 
 interface ImdbDetailsProps {
     url: string
@@ -12,14 +13,13 @@ const ImdbDetails: React.FC<ImdbDetailsProps> = props => {
     const {
         data: ImdbData,
         mutate: mutateImdbData,
-        isSuccess
+        isSuccess,
+        isLoading
         // isLoading: isLoadingImdbData
     } = useGetImdbDetails()
-    console.log("ImdbData")
-    console.log(ImdbData)
     return (
         <>
-            {isSuccess && (
+            {isSuccess ? (
                 <div className="text-white p-5 sm:flex xl:flex xl:justify-center">
                     <div className="sm:pr-4">
                         <img src={ImdbData.main_image} alt=""/>
@@ -90,7 +90,7 @@ const ImdbDetails: React.FC<ImdbDetailsProps> = props => {
                         </div>
                     </div>
                 </div>
-            )}
+            ) : <div className="flex justify-center"><ReactLoading height={'10%'} width={'10%'}/></div>}
         </>
     );
 };

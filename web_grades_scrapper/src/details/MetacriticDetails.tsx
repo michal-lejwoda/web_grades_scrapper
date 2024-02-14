@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {useGetMetacriticDetails} from "../mutations.tsx";
+import ReactLoading from "react-loading";
 
 interface MetacriticDetailsProps {
     url: string
@@ -12,12 +13,15 @@ const MetacriticDetails: React.FC<MetacriticDetailsProps> = props => {
         data: MetacriticData,
         mutate: mutateMetacriticData,
         isSuccess,
+        isLoading
     } = useGetMetacriticDetails()
     console.log("MetacriticData")
     console.log(MetacriticData)
+    console.log("isLoading")
+    console.log(isLoading)
     return (
         <>
-            {isSuccess && (
+            {isSuccess ? (
                 <div className="text-white p-5 sm:flex xl:flex xl:justify-center">
                     <div className="sm:pr-4">
                         <img src={MetacriticData.main_image} alt=""/>
@@ -53,7 +57,7 @@ const MetacriticDetails: React.FC<MetacriticDetailsProps> = props => {
                         <p >Summary: <span className="text-sm">{MetacriticData.summary}</span></p>
                     </div>
                 </div>
-            )}
+            ): <div className="flex justify-center"><ReactLoading height={'10%'} width={'10%'}/></div>}
         </>
     );
 };
