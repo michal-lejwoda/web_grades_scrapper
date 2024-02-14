@@ -7,7 +7,7 @@ function ImdbList (props: PropsList){
     //     key={element.id}>{element.title}</div>)
     console.log(props.data)
     const list_of_imdb_elements = props.data.map((element) =>
-        <li className="py-3 sm:pb-4 cursor-pointer" onClick={() => props.handleNavigation(element.url, "metacritic")}>
+        <li className="py-3 sm:pb-4 cursor-pointer" onClick={() => props.handleNavigation(element.url, "imdb")}>
                     <div className="flex items-center space-x-4 rtl:space-x-reverse">
                         <div className="flex-shrink-0">
                             <img className="w-14 h-14 rounded-full" src={element.img}
@@ -40,9 +40,5 @@ function ImdbList (props: PropsList){
     )
 };
 
-// ImdbList.propTypes = {
-//     handleNavigation: PropTypes.func,
-//     data: PropTypes.array
-// };
 
 export default ImdbList;

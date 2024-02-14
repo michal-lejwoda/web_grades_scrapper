@@ -5,7 +5,8 @@ from slugify import slugify
 from helpers import create_url, get_soup
 from imdb.imdb_helpers_functions import get_list_container, get_list_title, get_list_description, get_container, \
     get_title, get_critic_reviews_number, get_user_reviews_number, get_metascore, get_photos, get_actors, \
-    get_more_like_this, get_presentations, get_data, get_imdb_rating, get_imdb_rating_based_on, get_popularity
+    get_more_like_this, get_presentations, get_data, get_imdb_rating, get_imdb_rating_based_on, get_popularity, \
+    get_main_image
 
 
 def get_imdb_rdr2_soup():
@@ -96,7 +97,9 @@ def test_get_imdb_rating_result_type():
     container = get_container(ryan_soup)
     assert type(get_imdb_rating(container)) == str
 
-
+def test_get_main_image():
+    container = get_container(ryan_soup)
+    assert type(get_main_image(container)) == str
 
 def test_get_data_result_type():
     container = get_container(ryan_soup)
