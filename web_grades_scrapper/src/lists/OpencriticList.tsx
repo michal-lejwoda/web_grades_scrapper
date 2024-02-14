@@ -32,8 +32,4 @@ function OpencriticList(props: PropsList) {
     )
 }
 
-// OpencriticList.propTypes = {
-//     handleNavigation: PropTypes.func,
-//     data: PropTypes.array
-// };
 export default OpencriticList;
