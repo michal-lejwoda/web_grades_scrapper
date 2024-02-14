@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {useGetImdbDetails} from "../mutations.tsx";
 import ReactLoading from "react-loading";
+import Slider from "react-slick";
 
 interface ImdbDetailsProps {
     url: string
@@ -10,21 +11,28 @@ const ImdbDetails: React.FC<ImdbDetailsProps> = props => {
     useEffect(() => {
         mutateImdbData({"url": props.url})
     }, [])
+
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1
+    };
+
     const {
         data: ImdbData,
         mutate: mutateImdbData,
         isSuccess,
-        isLoading
-        // isLoading: isLoadingImdbData
     } = useGetImdbDetails()
     return (
         <>
             {isSuccess ? (
                 <div className="text-white p-5 sm:flex xl:flex xl:justify-center">
-                    <div className="sm:pr-4">
+                    <div className="sm:pr-4 flex justify-center sm:block">
                         <img src={ImdbData.main_image} alt=""/>
                     </div>
-                    <div className="py-3 sm:w-700">
+                    <div className="py-3 sm:w-500 xl:w-700">
                         <p className="text-xl font-bold">{ImdbData.title}</p>
                         <div>
                             {ImdbData.presentations.map((element, key) => {
@@ -59,35 +67,46 @@ const ImdbDetails: React.FC<ImdbDetailsProps> = props => {
                             </div>
                             <hr/>
                         </div>
-                        <p className="mt-2 py-2">Metascore:
-                            <span className="font-semibold">{ImdbData.metascore}</span></p>
                         <div>
-                            <p>actors</p>
-                        </div>
-                        <div>
-                            <p>More like this</p>
-                            {ImdbData.more_like_this.map((element) => {
-                                return (
-                                    <div>
-                                        <img src={element.more_like_this_image.src}
-                                             alt={element.more_like_this_image.alt}/>
-                                        <p>{element.title}</p>
-                                        <p>{element.more_like_this_rating}</p>
+                            <div className="flex justify-between py-2"><p
+                                className="flex items-center">Metascore:</p>
+                                <div className="min-w-48"><p
+                                    className="text-center pt-2">{ImdbData.metascore}</p>
                                     </div>
-                                )
-                            })}
+                            </div>
+                            <hr/>
                         </div>
                         <div>
-                            <p>Photos</p>
-                            {ImdbData.photos.map((element) => {
-                                return (
-                                    <div>
-                                        <img src={element.src}
-                                             alt={element.alt}/>
-                                    </div>
-                                )
-                            })}
+                            <p className="text-xl pb-4">Photos:</p>
+                            <Slider className="mx-3" {...settings}>
+                                {ImdbData.photos.map((element) => {
+                                    return (
+                                        <div>
+                                            <img className="h-52 w-36"
+                                                 src={element.src}
+                                                 alt={element.alt}/>
+                                        </div>
+                                    )
+                                })}
+                            </Slider>
                         </div>
+                        <div>
+                            <p className="text-xl py-4">More like this</p>
+                            <Slider className="mx-3" {...settings}>
+                                {ImdbData.more_like_this.map((element) => {
+                                    return (
+                                        <div>
+                                            <img className="h-52 w-36"
+                                                 src={element.more_like_this_image.src}
+                                                 alt={element.more_like_this_image.alt}/>
+                                            <p className="pt-4">{element.title}</p>
+                                            <p>Ocena: {element.more_like_this_rating}</p>
+                                        </div>
+                                    )
+                                })}
+                            </Slider>
+                        </div>
+
                     </div>
                 </div>
             ) : <div className="flex justify-center"><ReactLoading height={'10%'} width={'10%'}/></div>}
