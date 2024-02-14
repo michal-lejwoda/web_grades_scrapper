@@ -12,17 +12,44 @@ const OpencriticDetails: React.FC<OpencriticDetailsProps> = props => {
     const {
         data: OpencriticData,
         mutate: mutateOpencriticData,
-        // isLoading: isLoadingOpencriticData
+        isSuccess
     } = useGetOpencriticDetails()
-
-    mutateOpencriticData({"url": props.url})
-    console.log("OpencriticData")
-    console.log(OpencriticData)
-
     return (
-        <div>
-            Opencritic Details
-        </div>
+        <>
+            {isSuccess && (
+                <div className="text-white p-5 md:flex xl:flex xl:justify-center">
+                    <div className="md:pr-4">
+                        <img src={OpencriticData.img.src} alt=""/>
+                    </div>
+                    <div className="py-3 md:w-700">
+                        <p className="text-3xl font-bold mb-3">{OpencriticData.title}</p>
+                        <div>
+                            <div className="flex justify-between px-2"><img className="w-20"
+                                                                            src={OpencriticData.critic_rating_img.src}
+                                                                            alt=""/>
+                                <div className="min-w-48 flex flex-col items-center w-24"><p
+                                    className="text-center text-2xl flex items-center">{OpencriticData.critic_score}</p>
+                                    <p className="text-sm text-center">Critic score</p>
+                                </div>
+                                <div className="flex flex-col items-center w-24">
+                                    <p
+                                        className="text-center text-sm text-2xl flex items-center">{OpencriticData.critic_recommend}</p>
+                                    <p className="text-sm text-center">Recommendations</p>
+                                </div>
+                            </div>
+                            <hr/>
+                        </div>
+                        <p className="mt-2 py-2">Developers: <span
+                            className="font-semibold">{OpencriticData.developers}</span></p>
+                        <p className="py-2">Release Date: <span
+                            className="font-medium">{OpencriticData.release_date}</span>
+                        </p>
+                        {/*<p >Summary: <span className="text-sm">{OpencriticData.summary}</span></p>*/}
+                        {/*Reviews reviews {reviewer, reviewer_score}*/}
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 

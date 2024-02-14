@@ -3,7 +3,8 @@ import bs4
 from helpers import create_session
 from .metacritic_helpers_functions import get_name, get_metascore, get_platforms, get_img, get_year, get_types, \
     get_result_container, get_rest_platforms, get_main_container, get_genres, get_developers, get_summary, \
-    create_dict_without_none_objects, get_url, get_publishers, get_release_date, get_user_data, get_main_image
+    create_dict_without_none_objects, get_url, get_publishers, get_release_date, get_user_data, get_main_image, \
+    get_title
 
 
 # create_list_elements
@@ -29,6 +30,7 @@ def detail_metacritic_games(soup: bs4.BeautifulSoup) -> dict:
     rest_platforms = get_rest_platforms(soup)
     main_container = get_main_container(soup)
     main_image = get_main_image(main_container)
+    title = get_title(main_container)
     genres = get_genres(main_container)
     developers = get_developers(main_container)
     publishers = get_publishers(main_container)
@@ -36,12 +38,14 @@ def detail_metacritic_games(soup: bs4.BeautifulSoup) -> dict:
     release_date = get_release_date(main_container)
     summary = get_summary(main_container)
 
-    results = {"developers": developers,
-               "main_image": main_image,
-               "genres": genres,
-               "summary": summary,
-               "platforms_data": rest_platforms,
-               "release_date": release_date,
-               "publishers": publishers,
-               "user_data": user_data}
+    results = {
+        "title": title,
+        "developers": developers,
+        "main_image": main_image,
+        "genres": genres,
+        "summary": summary,
+        "platforms_data": rest_platforms,
+        "release_date": release_date,
+        "publishers": publishers,
+        "user_data": user_data}
     return results
