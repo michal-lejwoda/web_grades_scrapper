@@ -33,7 +33,7 @@ const OpencriticDetails: React.FC<OpencriticDetailsProps> = props => {
                                 </div>
                                 <div className="flex flex-col items-center w-24">
                                     <p
-                                        className="text-center text-sm text-2xl flex items-center">{OpencriticData.critic_recommend}</p>
+                                        className="text-center text-2xl flex items-center">{OpencriticData.critic_recommend}</p>
                                     <p className="text-sm text-center">Recommendations</p>
                                 </div>
                             </div>
@@ -44,8 +44,15 @@ const OpencriticDetails: React.FC<OpencriticDetailsProps> = props => {
                         <p className="py-2">Release Date: <span
                             className="font-medium">{OpencriticData.release_date}</span>
                         </p>
-                        {/*<p >Summary: <span className="text-sm">{OpencriticData.summary}</span></p>*/}
-                        {/*Reviews reviews {reviewer, reviewer_score}*/}
+                        <div>Main Reviews: </div>
+                        {OpencriticData.reviews.map((element) => {
+                            return (
+                                <div>
+                                    <p>Newspaper: {element.reviewer}</p>
+                                    <p>Score {element.reviewer_score}</p>
+                                </div>
+                            )
+                        })}
                     </div>
                 </div>
             )}
