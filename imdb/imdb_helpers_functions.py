@@ -91,6 +91,13 @@ def get_imdb_rating_based_on(container: bs4.element.Tag) -> Optional[str]:
         return None
 
 
+def get_main_image(container: bs4.element) -> Optional[str]:
+    try:
+        return container.find_all("img", attrs={"class": 'ipc-image'})[0].attrs['src']
+    except AttributeError:
+        return None
+
+
 def get_imdb_rating(container: bs4.element.Tag) -> Optional[str]:
     try:
         imdb_rating_container = container.find(name="div",
@@ -115,7 +122,6 @@ def get_data(container: bs4.element.Tag) -> Optional[list]:
                 continue
         return data
     except (AttributeError, IndexError) as e:
-        print(e)
         return None
 
 

@@ -8,6 +8,7 @@ PLATFORM = "u-flexbox u-flexbox-alignCenter u-flexbox-nowrap g-gap-medium g-text
 """Detail metacritic types"""
 SELECT_DETAIL_PLATFORMS_CONTAINER = ".product_platforms"
 SELECT_DETAIL_MAIN_CONTAINER = ".c-pageProductGame"
+DETAIL_TITLE = "c-productHero_title"
 GENRES = "product_genre"
 DEVELOPERS = "c-gameDetails_Developer"
 SUMMARY = "c-productionDetailsGame_description"

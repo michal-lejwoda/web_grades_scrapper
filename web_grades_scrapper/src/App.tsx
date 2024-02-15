@@ -3,6 +3,8 @@ import ReactLoading from 'react-loading';
 import {Field, FormikProvider, useFormik} from 'formik';
 import {useGetListData} from "./mutations.tsx";
 import ListDataComponent from "./ListDataComponent.tsx";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 
 const App: React.FC = () => {

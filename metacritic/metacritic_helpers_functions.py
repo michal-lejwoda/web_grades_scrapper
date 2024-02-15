@@ -1,11 +1,10 @@
-import re
 from typing import Optional
 
 import bs4
-import requests.sessions
 from slugify import slugify
 
 from metacritic import metacritic_types
+from metacritic.metacritic_types import DETAIL_TITLE
 
 """List metacritic functions"""
 
@@ -82,7 +81,6 @@ def create_dict_without_none_objects(dict_elements: dict) -> dict:
 
 
 def get_main_container(soup: bs4.BeautifulSoup) -> Optional[bs4.element.Tag]:
-    print(soup.select(metacritic_types.SELECT_DETAIL_MAIN_CONTAINER))
     try:
         return soup.select(metacritic_types.SELECT_DETAIL_MAIN_CONTAINER)[0]
     except (AttributeError, IndexError):
@@ -129,7 +127,13 @@ def get_developers(main_container: bs4.element.Tag) -> Optional[list]:
     except AttributeError:
         return None
 
+def get_main_image(main_container: bs4.element.Tag):
+    main_image = main_container.find_all(name='picture')[0].find(name='img')['src']
+    return main_image
 
+def get_title(main_container: bs4.element.Tag) -> str:
+    title = main_container.find(name='div', attrs={"class": DETAIL_TITLE}).text.strip()
+    return title
 def get_publishers(main_container: bs4.element.Tag) -> Optional[list]:
     try:
         return_publishers = []
