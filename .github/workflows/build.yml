@@ -1,4 +1,4 @@
-name: Trainer
+name: Web Scrapper
 
 on:
   push:
@@ -20,10 +20,9 @@ jobs:
             cd web_grades_scrapper
             git pull
             docker kill $(docker ps -q -a)
+            source ~/.nvm/nvm.sh
+            nvm use 18
             cd web_grades_scrapper
-            npm install -g npm@9.5.1
-            npm -v
-            npm install
             npm run build
             cd ..
             docker-compose -f production.yml build
