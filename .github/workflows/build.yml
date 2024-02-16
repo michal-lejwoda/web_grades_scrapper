@@ -19,8 +19,10 @@ jobs:
           script: |
             cd web_grades_scrapper
             git pull
+            docker kill $(docker ps -q -a)
             cd web_grades_scrapper
+            npm install
             npm run build
             cd ..
             docker-compose -f production.yml build
-            docker-compose -f production.yml up
+            docker-compose -f production.yml up -d
