@@ -22,6 +22,7 @@ jobs:
             git pull
             docker kill $(docker ps -q -a)
             cd web_grades_scrapper
+            source ~/.bashrc
             npm install -g npm@9.5.1
             nvm -v
             npm -v
