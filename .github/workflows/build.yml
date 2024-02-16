@@ -1,4 +1,4 @@
-name: Trainer
+name: Web Scrapper
 
 on:
   push:
@@ -23,9 +23,6 @@ jobs:
             source ~/.nvm/nvm.sh
             nvm use 18
             cd web_grades_scrapper
-            nvm -v
-            npm -v
-            npm install
             npm run build
             cd ..
             docker-compose -f production.yml build
