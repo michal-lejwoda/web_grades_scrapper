@@ -7,12 +7,39 @@ interface ImdbDetailsProps {
     url: string
 }
 
+interface Photo {
+    src: string;
+    alt: string;
+}
+interface Presentation {
+    label: string;
+    presentation: Array<string>
+}
+
+interface MoreLikeThis {
+    more_like_this_image: MoreLikeThisImage
+    title: string,
+    more_like_this_rating: string
+}
+interface MoreLikeThisImage{
+    src: string,
+    alt: string,
+}
+interface SliderSettings {
+    dots: boolean;
+    infinite: boolean;
+    speed: number;
+    slidesToShow: number;
+    slidesToScroll: number;
+}
+
+
 const ImdbDetails: React.FC<ImdbDetailsProps> = props => {
     useEffect(() => {
         mutateImdbData({"url": props.url})
     }, [])
 
-    const settings = {
+    const settings: SliderSettings = {
         dots: true,
         infinite: true,
         speed: 500,
@@ -35,7 +62,7 @@ const ImdbDetails: React.FC<ImdbDetailsProps> = props => {
                     <div className="py-3 sm:w-500 xl:w-700">
                         {ImdbData.title && <p className="text-xl font-bold">{ImdbData.title}</p>}
                         <div>
-                            {ImdbData.presentations && ImdbData.presentations.map((element, key) => {
+                            {ImdbData.presentations && ImdbData.presentations.map((element: Presentation, key: number) => {
                                 return (
                                     <div key={key}>
                                         <div className="flex justify-between"><p
@@ -85,9 +112,9 @@ const ImdbDetails: React.FC<ImdbDetailsProps> = props => {
                             <div>
                                 <p className="text-xl pb-4">Photos:</p>
                                 <Slider className="mx-3" {...settings}>
-                                    {ImdbData.photos.map((element) => {
+                                    {ImdbData.photos.map((element: Photo, index: number) => {
                                         return (
-                                            <div>
+                                            <div key={index}>
                                                 <img className="h-52 w-36"
                                                      src={element.src}
                                                      alt={element.alt}/>
@@ -101,9 +128,9 @@ const ImdbDetails: React.FC<ImdbDetailsProps> = props => {
                             <div>
                                 <p className="text-xl py-4">More like this</p>
                                 <Slider className="mx-3" {...settings}>
-                                    {ImdbData.more_like_this.map((element) => {
+                                    {ImdbData.more_like_this.map((element: MoreLikeThis, index: number) => {
                                         return (
-                                            <div>
+                                            <div key={index}>
                                                 <img className="h-52 w-36"
                                                      src={element.more_like_this_image.src}
                                                      alt={element.more_like_this_image.alt}/>

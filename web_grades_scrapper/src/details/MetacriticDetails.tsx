@@ -6,6 +6,23 @@ interface MetacriticDetailsProps {
     url: string
 }
 
+interface PlatformData {
+    platform: string,
+    critic_score: string,
+    critic_based_on: string
+}
+
+// <div className="flex justify-between">
+//     {element.platform &&
+//         <p className="flex items-center">{element.platform}</p>}
+//     <div className="min-w-48">
+//         {element.critic_score &&
+//             <p className="text-center  pt-2">{element.critic_score}</p>}
+//         {element.critic_based_on &&
+//             <p className="text-center text-sm">{element.critic_based_on}</p>}
+//     </div>
+// </div>
+
 const MetacriticDetails: React.FC<MetacriticDetailsProps> = props => {
     useEffect(() => {
         mutateMetacriticData({"url": props.url})
@@ -27,7 +44,7 @@ const MetacriticDetails: React.FC<MetacriticDetailsProps> = props => {
                     <div className="py-3 sm:w-700">
                         {MetacriticData.title && <p className="text-xl font-bold">{MetacriticData.title}</p>}
                         <div>
-                            {MetacriticData.platforms_data && MetacriticData.platforms_data.map((element, key) => {
+                            {MetacriticData.platforms_data && MetacriticData.platforms_data.map((element: PlatformData, key: number) => {
                                 return (
                                     <div key={key}>
                                         <div className="flex justify-between">

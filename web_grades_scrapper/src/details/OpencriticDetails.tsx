@@ -5,6 +5,10 @@ import ReactLoading from "react-loading";
 interface OpencriticDetailsProps {
     url: string
 }
+interface Review{
+    reviewer: string,
+    reviewer_score: string
+}
 
 const OpencriticDetails: React.FC<OpencriticDetailsProps> = props => {
     useEffect(() => {
@@ -58,9 +62,9 @@ const OpencriticDetails: React.FC<OpencriticDetailsProps> = props => {
                         {OpencriticData.reviews &&
                             <div>
                                 <div>Main Reviews:</div>
-                                {OpencriticData.reviews.map((element) => {
+                                {OpencriticData.reviews.map((element: Review, index: number) => {
                                     return (
-                                        <div>
+                                        <div key={index}>
                                             <p>Newspaper: {element.reviewer}</p>
                                             <p>Score {element.reviewer_score}</p>
                                         </div>
