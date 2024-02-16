@@ -23,8 +23,8 @@ jobs:
             docker kill $(docker ps -q -a)
             cd web_grades_scrapper
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-            nvm install 18.16.0
             source ~/.bashrc
+            nvm install 18.16.0
             npm install -g npm@9.5.1
             nvm -v
             npm -v
