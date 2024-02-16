@@ -20,6 +20,8 @@ jobs:
           script: |
             cd web_grades_scrapper
             git pull
-            cat requirements.txt
-#          source: "."
-#          target: "~/true-effects-deploy"
+            cd web_grades_scrapper
+            npm run build
+            cd ..
+            docker-compose -f production.yml build
+            docker-compose -f production.yml up
