@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - developer
 
 jobs:
   deploy:
@@ -22,6 +23,7 @@ jobs:
             docker kill $(docker ps -q -a)
             cd web_grades_scrapper
             npm install -g npm@9.5.1
+            nvm -v
             npm -v
             npm install
             npm run build
