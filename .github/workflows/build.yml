@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - developer
 
 jobs:
   deploy:
@@ -20,6 +19,10 @@ jobs:
           script: |
             cd web_grades_scrapper
             git pull
-            cat requirements.txt
-#          source: "."
-#          target: "~/true-effects-deploy"
+            docker kill $(docker ps -q -a)
+            cd web_grades_scrapper
+            npm install
+            npm run build
+            cd ..
+            docker-compose -f production.yml build
+            docker-compose -f production.yml up -d
