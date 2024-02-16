@@ -19,6 +19,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd web_grades_scrapper
+            git pull
             cat requirements.txt
 #          source: "."
 #          target: "~/true-effects-deploy"
