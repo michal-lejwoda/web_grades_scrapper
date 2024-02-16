@@ -21,7 +21,6 @@ jobs:
             git pull
             docker kill $(docker ps -q -a)
             cd web_grades_scrapper
-            npm install
             npm run build
             cd ..
             docker-compose -f production.yml build
