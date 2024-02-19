@@ -5,6 +5,7 @@ import ReactLoading from "react-loading";
 interface OpencriticDetailsProps {
     url: string
 }
+
 interface Review{
     reviewer: string,
     reviewer_score: string
