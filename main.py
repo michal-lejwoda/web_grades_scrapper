@@ -1,6 +1,6 @@
 
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, APIRouter
 from slugify import slugify
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -12,7 +12,7 @@ from schemas import NameSchema, UrlOpencriticSchema, UrlMetacriticSchema, UrlImd
 
 load_dotenv('.env')
 app = FastAPI()
-
+router = APIRouter(prefix="/api")
 origins = ["*"]
 
 app.add_middleware(
@@ -23,7 +23,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
+@router.get("/")
 async def root():
     url_template = "https://www.imdb.com/title/tt0120815/"
     soup = get_soup(url_template)
@@ -31,7 +31,7 @@ async def root():
     return movie_detail
 
 
-@app.post("/metacritic_old")
+@router.post("/metacritic_old")
 async def metacritic_old(name_schema: NameSchema):
     name = name_schema.name
     url_template = "https://www.metacritic.com/search/game/{}/results"
@@ -41,7 +41,7 @@ async def metacritic_old(name_schema: NameSchema):
     return list_elements
 
 
-@app.post("/metacritic")
+@router.post("/metacritic")
 async def metacritic(name_schema: NameSchema):
     name = name_schema.name
     url_template = "https://www.metacritic.com/search/{}/"
@@ -50,7 +50,7 @@ async def metacritic(name_schema: NameSchema):
     list_elements = list_metacritic_games(soup)
     return list_elements
 
-@app.post("/opencritic")
+@router.post("/opencritic")
 async def opencritic(name_schema: NameSchema):
     name = name_schema.name
     url_template = "https://opencritic-api.p.rapidapi.com/game/search"
@@ -58,7 +58,7 @@ async def opencritic(name_schema: NameSchema):
     return opencritic_games_list
 
 
-@app.post("/imdb")
+@router.post("/imdb")
 async def imdb(name_schema: NameSchema):
     name = name_schema.name
     name_slugify = slugify(name)
@@ -69,7 +69,7 @@ async def imdb(name_schema: NameSchema):
     return list_elements
 
 
-@app.post("/metacritic_detail")
+@router.post("/metacritic_detail")
 async def metacritic_detail(urlschema: UrlMetacriticSchema):
     url_template = urlschema.url
     soup = get_soup(url_template)
@@ -77,7 +77,7 @@ async def metacritic_detail(urlschema: UrlMetacriticSchema):
     return game_detail
 
 
-@app.post("/opencritic_detail")
+@router.post("/opencritic_detail")
 async def opencritic_detail(urlschema: UrlOpencriticSchema):
     url_template = urlschema.url
     soup = get_soup(url_template)
@@ -85,9 +85,11 @@ async def opencritic_detail(urlschema: UrlOpencriticSchema):
     return game_detail
 
 
-@app.post("/imdb_detail")
+@router.post("/imdb_detail")
 async def imdb_detail(urlschema: UrlImdbSchema):
     url_template = urlschema.url
     soup = get_soup(url_template)
     movie_detail = detail_imdb_movie(soup)
     return movie_detail
+
+app.include_router(router)
