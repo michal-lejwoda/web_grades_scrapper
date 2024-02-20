@@ -8,32 +8,28 @@ export async function getListData(data: ListData){
     let response
     switch (data.page_name){
         case 'opencritic':
-            response = await instance.post(`http://0.0.0.0:8000/opencritic`, data);
+            response = await instance.post(`/api/opencritic`, data);
             return response.data;
         case 'metacritic':
-            response = await instance.post(`http://0.0.0.0:8000/metacritic`, data);
+            response = await instance.post(`/api/metacritic`, data);
             return response.data;
         case 'imdb':
-            response = await instance.post(`http://0.0.0.0:8000/imdb`, data);
+            response = await instance.post(`/api/imdb`, data);
             return response.data;
     }
 }
 
 export async function  getOpencriticDetailData(data: DetailData){
-    const response = await instance.post(`http://0.0.0.0:8000/opencritic_detail`, data);
+    const response = await instance.post(`/api/opencritic_detail`, data);
     return response.data;
 }
 
 export async function  getMetacriticDetailData(data: DetailData){
-    const response = await instance.post(`http://0.0.0.0:8000/metacritic_detail`, data);
+    const response = await instance.post(`/api/metacritic_detail`, data);
     return response.data;
 }
 
 export async function  getImdbDetailData(data: DetailData){
-    console.log("data")
-    console.log(data)
-    const response = await instance.post(`http://0.0.0.0:8000/imdb_detail`, data);
-    console.log("response.data")
-    console.log(response.data)
+    const response = await instance.post(`/api/imdb_detail`, data);
     return response.data;
 }

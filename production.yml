@@ -27,7 +27,7 @@ services:
     command: /start_scrapper_backend
     ports:
       #HOST:CONTAINER
-      - "8000:80"
+      - "8000:8000"
     networks:
       - production-scrapper
 
