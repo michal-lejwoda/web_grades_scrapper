@@ -86,17 +86,17 @@ const ImdbDetails: React.FC<ImdbDetailsProps> = props => {
                                 </div>
                                 <hr/>
                             </div>}
-                        {ImdbData.user_reviews_number &&
-                            <div>
-                                <div className="flex justify-between"><p
-                                    className="flex items-center">User Reviews</p>
-                                    <div className="min-w-48"><p
-                                        className="text-center pt-2">{ImdbData.user_reviews_number}</p><p
-                                        className="text-center text-sm">{ImdbData.critic_reviews_number}</p></div>
-                                </div>
-                                <hr/>
-                            </div>
-                        }
+                        {/*{ImdbData.user_reviews_number &&*/}
+                        {/*    <div>*/}
+                        {/*        <div className="flex justify-between"><p*/}
+                        {/*            className="flex items-center">User Reviews</p>*/}
+                        {/*            <div className="min-w-48"><p*/}
+                        {/*                className="text-center pt-2">{ImdbData.user_reviews_number}</p><p*/}
+                        {/*                className="text-center text-sm">{ImdbData.critic_reviews_number}</p></div>*/}
+                        {/*        </div>*/}
+                        {/*        <hr/>*/}
+                        {/*    </div>*/}
+                        {/*}*/}
                         {ImdbData.metascore &&
                             <div>
                                 <div className="flex justify-between py-2"><p
