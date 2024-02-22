@@ -3,7 +3,10 @@ import bs4
 def get_soup(url: str) -> bs4.BeautifulSoup:
     session = requests.Session()
     session.headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"}
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36",
+        "Accept-Language": "pl-PL,pl;q=0.5"
+    }
+
     r = session.get(url)
     return bs4.BeautifulSoup(r.text, 'lxml')
 
