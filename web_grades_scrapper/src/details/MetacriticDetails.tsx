@@ -64,15 +64,18 @@ const MetacriticDetails: React.FC<MetacriticDetailsProps> = props => {
                         </div>
                         {MetacriticData.user_data &&
                             <div>
-
-                                <div className="flex justify-between"><p
-                                    className="flex items-center">User Score</p>
-                                    <div className="min-w-48"><p
-                                        className="text-center pt-2">{MetacriticData.user_data.user_score}</p><p
-                                        className="text-center text-sm">{MetacriticData.user_data.user_based_on}</p>
+                                {MetacriticData.user_data.user_score &&
+                                    <div>
+                                        <div className="flex justify-between"><p
+                                            className="flex items-center">User Score</p>
+                                            <div className="min-w-48"><p
+                                                className="text-center pt-2">{MetacriticData.user_data.user_score}</p><p
+                                                className="text-center text-sm">{MetacriticData.user_data.user_based_on}</p>
+                                            </div>
+                                        </div>
+                                        <hr/>
                                     </div>
-                                </div>
-                                <hr/>
+                                }
                             </div>
                         }
                         {MetacriticData.developers &&
