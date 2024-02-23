@@ -128,12 +128,19 @@ def get_developers(main_container: bs4.element.Tag) -> Optional[list]:
         return None
 
 def get_main_image(main_container: bs4.element.Tag):
-    main_image = main_container.find_all(name='picture')[0].find(name='img')['src']
-    return main_image
+    try:
+        top_container = main_container.find(name='div', attrs={"class": "c-productHero_container"})
+        main_image = top_container.find_all(name='picture')[0].find(name='img')['src']
+        return main_image
+    except (AttributeError, IndexError):
+        return None
 
 def get_title(main_container: bs4.element.Tag) -> str:
-    title = main_container.find(name='div', attrs={"class": DETAIL_TITLE}).text.strip()
-    return title
+    try:
+        title = main_container.find(name='div', attrs={"class": DETAIL_TITLE}).text.strip()
+        return title
+    except AttributeError:
+        return None
 def get_publishers(main_container: bs4.element.Tag) -> Optional[list]:
     try:
         return_publishers = []
