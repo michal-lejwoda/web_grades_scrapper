@@ -60,7 +60,7 @@ const App: React.FC = () => {
                                 Imdb
                             </label>
                         </div>
-                        <button className="mt-5 py-3 px-5 border rounded-lg hover:border-blue-700 hover:text-blue-700" type="submit">Submit</button>
+                        <button className="mt-5 py-3 px-5 border rounded-lg hover:border-blue-700 hover:text-blue-700" type="submit">Wyszukaj</button>
                     </form>
                 </FormikProvider>
             </div>

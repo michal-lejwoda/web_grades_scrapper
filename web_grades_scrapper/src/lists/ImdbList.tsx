@@ -12,7 +12,7 @@ function ImdbList(props: PropsList) {
                         <img className="w-14 h-14 rounded-full" src="/no_image.jpg" alt="no_image"/>}
                 </div>
                 <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white text-white">
                         {element.title}
                     </p>
                     <p className="text-sm text-gray-500 truncate dark:text-gray-400">
@@ -21,7 +21,7 @@ function ImdbList(props: PropsList) {
                         })}
                     </p>
                 </div>
-                <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white text-white">
                     {element.metascore}
                 </div>
             </div>
