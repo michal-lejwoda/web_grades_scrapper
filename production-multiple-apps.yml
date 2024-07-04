@@ -1,0 +1,29 @@
+services:
+#  production_scrapper_nginx:
+#    image: nginx
+#    container_name: production_scrapper_nginx
+#    build:
+#      context: .
+#      dockerfile: ./compose/production/nginx/Dockerfile
+#    restart: always
+#    volumes:
+#      - "./web_grades_scrapper/dist:/dist"
+#    depends_on:
+#      - production_scrapper_backend
+#    networks:
+#      - production-scrapper
+#      - connector
+
+  production_scrapper_backend:
+    container_name: production_scrapper_backend
+    build:
+      context: .
+      dockerfile: ./compose/production/scrapper_backend/Dockerfile
+    command: /start_scrapper_backend
+    networks:
+      - production-scrapper
+
+networks:
+  production-scrapper:
+  connector:
+    external: true
