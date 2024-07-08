@@ -1,5 +1,3 @@
-version: '3.3'
-
 services:
   production_scrapper_nginx:
     image: nginx
@@ -8,12 +6,11 @@ services:
       context: .
       dockerfile: ./compose/production/nginx/Dockerfile
     ports:
-      - "80:80"
-      - "443:443"
+      - 80:80
+      - 443:443
     restart: always
     volumes:
-      - "./web_grades_scrapper/dist:/dist"
-#      - "/app/backend/local-production-static:/app/backend/local-production-static"
+      - ./web_grades_scrapper/dist:/dist
     depends_on:
       - production_scrapper_backend
     networks:
@@ -26,8 +23,7 @@ services:
       dockerfile: ./compose/production/scrapper_backend/Dockerfile
     command: /start_scrapper_backend
     ports:
-      #HOST:CONTAINER
-      - "8000:8000"
+      - 8000:8000
     networks:
       - production-scrapper
 
