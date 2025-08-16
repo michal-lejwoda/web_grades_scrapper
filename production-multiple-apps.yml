@@ -7,6 +7,7 @@ services:
     command: /start_scrapper_backend
     networks:
       - production-scrapper
+      - connector
 
 networks:
   production-scrapper:
