@@ -1,31 +1,56 @@
-# Web grades scrapper - Simple app which get data from pages like Opencritic, Metacritic, Imdb and display them in simple form. 
+# 🎮 Media Review Aggregator Website  
 
-### Demo: https://www.scrapper-omi.pl/
+## 📖 Overview  
 
-## Technology stack
+Originally developed as a **Discord bot**, this project evolved into a **standalone web platform** that aggregates review data from sources such as **OpenCritic**, **Metacritic**, and **IMDb**.  
+- The application **scrapes relevant information** and presents key ratings and summaries in a user-friendly format.  
+- It provides a **quick and reliable reference** for evaluating games, movies, and TV shows without browsing multiple websites.  
+- Built with **FastAPI** and **React + TypeScript**, the platform is **Dockerized** for easy deployment and automatically updated via **GitHub Actions**.  
 
-### DevOps
-- Nginx
-- Docker
-### Backend 
-- Fast api
-### Frontend:
-- React
-- Typescript
+---
 
-## Application technology description
+## 🚀 Features  
 
-To create this app, i used Fast api as backend and React as frontend. For backend side of the application, i created tests of every single request to make sure that everything works fine. This Application utilizes Docker containers for seamless deployment and execution. Just like my other apps, this application is hosted on my vps server too and with each approved PR app, this is built and reloaded automatically, thanks to github actions.
+- 🎮 **Games Data Aggregation** - display ratings from **Metacritic** and **OpenCritic**  
+- 🎬 **Movie & TV Show Data** - display IMDb ratings and summaries  
+- 🖥️ **Web Interface** - clean, responsive design built with **React + Tailwind**  
+- ⚙️ **Automated Deployment** - Docker + GitHub Actions  
+- ✅ **Backend Tests** - requests and endpoints tested using **pytest**  
 
-## Application allows to:
+---
 
-- Display games data from Metacritic
-- Display games data from Opencritic
-- Display film data from Imdb
+## 🛠️ Technology Stack  
 
-## Problems
-- During the writing of this application I encountered several problems, for example, 2 months after writing the application metacritic refreshed the layout of their site, so I had to write the script again, and from time to time they make changes, so it happens that not everything downloads correctly.
-- An api is required to display the list from opencritic, which doesn't have as many queries as I would like to have.
+### 🔙 Backend
+- **FastAPI** - API framework  
+- **BeautifulSoup** - web scraping of review data  
+- **Pytest** - backend testing  
+- **Docker** - containerized deployment  
 
-## PS
-Originally the application was a bot for discord but I decided it would be good to have a site that displays this data in one place
+### 🎨 Frontend
+- **React + TypeScript** - interactive UI  
+- **TailwindCSS** - styling  
+
+### ⚙️ DevOps
+- **Docker** - containerized deployment  
+- **Nginx** - serving static files & reverse proxy  
+- **GitHub Actions** - CI/CD automation  
+
+---
+
+## ⚠️ Known Issues / Challenges
+
+- Metacritic occasionally **updates its site layout**, requiring adjustments in scraping scripts.  
+- OpenCritic API **has limited queries**, which may restrict the amount of data fetched.  
+- Scraping relies on external site structures, so occasional **data inconsistencies** may occur.  
+
+---
+
+## 🏗️ Architecture  
+
+🔹 **Frontend (React + TypeScript)** - UI and display of aggregated reviews  
+🔹 **Backend (FastAPI + BeautifulSoup)** - scraping, aggregation, and API endpoints  
+🔹 **Nginx** - static file serving and reverse proxy  
+🔹 **Docker + GitHub Actions** - containerized deployment and CI/CD  
+
+---
